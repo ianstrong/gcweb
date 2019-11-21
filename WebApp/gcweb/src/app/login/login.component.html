@@ -1,0 +1,28 @@
+<div class="container-fluid" style="margin-top: 50px;">
+  <div class="row">
+      <div class="col-lg-3 col-md-4 col-sm-12 mx-auto">
+          <div class="card card-profile">
+              <div class="card-avatar">
+                  <a href="javascript:void(0)">
+                      <img class="img" src="./assets/img/gc-log.png" />
+                  </a>
+              </div>
+              <div class="card-body mx-2">
+                  <h4 class="card-title">Gordon College</h4>
+                  <h6 class="card-category text-gray">Faculty Portal</h6>
+
+                  <form (submit)="logIn($event)">
+                    <div class="form-group">
+                        <!-- <input type="text" placeholder="Employee Number" [(ngModel)]="eId" class="form-control" [ngModelOptions]="{standalone: true}" /> -->
+                    </div>
+                    <div class="form-group">
+                        <!-- <input type="password" placeholder="Password"  [(ngModel)]="ePass"  class="form-control" [ngModelOptions]="{standalone: true}" /> -->
+                    </div>
+                    <button class="btn btn-sm btn-success pull-right" type="submit">Log In</button>
+
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
