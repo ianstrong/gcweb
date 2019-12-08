@@ -4,7 +4,7 @@
         private $host = 'localhost';
         private $username = 'root';
         private $password = '';
-        private $dbname = 'ccs_db';
+        private $dbname = 'gcweb';
         private $conn;
 
         function connect() {

@@ -28,8 +28,9 @@ class Auth{
 			return $this->info = array('status'=>array('remarks'=>false, 'message'=>'Employee number already exists.'), 'timestamp'=>date_create(),'prepared_by'=>'F-Society');
 		}else{
 			$pass = $this->encryptPassword("Aa1234567");
-			$this->conn->query("INSERT INTO tbl_faculty(fa_empnumber,fa_fname,fa_mname,fa_lname,fa_extname,fa_password) 
-			VALUES('$d->empNo','$d->empFname','$d->empMname','$d->empLname','$d->empEname','$pass')");
+			
+			$this->conn->query("INSERT INTO tbl_faculty(fa_empnumber,fa_fname,fa_mname,fa_lname,fa_extname,fa_password,fa_accounttype,fa_program,fa_department) 
+			VALUES('$d->empNo','$d->empFname','$d->empMname','$d->empLname','$d->empEname','$pass','$d->empType','$d->empProgram','$d->empDept')");
 			return $this->info = array('status'=>array('remarks'=>true, 'message'=>'Successfully added.'), 'timestamp'=>date_create(),'prepared_by'=>'F-Society');
 		}
 	}
@@ -183,28 +184,22 @@ class Auth{
 
 	//register account
 	function registeruser($d) {
-
-
-
         $this->result = $this->conn->query("SELECT * from tbl_faculty WHERE fa_empnumber='$d->eId'");
         if($this->result->num_rows>0){
             while($res = $this->result->fetch_assoc()){
                 array_push($this->data,$res);
 			}
-            return $this->info = array('status'=>array('remarks'=>false, 'message'=>'Employee number already exists.'), 'timestamp'=>date_create(),'prepared_by'=>'Mark Ian Bernardo');
+            return $this->info = array('status'=>array('remarks'=>false, 'message'=>'Employee number already exists.'), 'timestamp'=>date_create(),'prepared_by'=>'F-Society');
         }else{
 			$pass = $this->encryptPassword($d->ePass);
 			$this->conn->query("INSERT INTO tbl_faculty(fa_empnumber,fa_password) values('$d->eId','$pass')");
 	   		return $this->info = array('status'=>array('remarks'=>true, 'message'=>'Registration success.'), 'timestamp'=>date_create(),'prepared_by'=>'Mark Ian');
 		}
-		
-
-
 	}
 
 	//login account
-	function loginuser($d){
-        $this->result = $this->conn->query("SELECT * from tbl_faculty WHERE fa_empnumber='$d->eId' LIMIT 1");
+	function loginAdmin($d){
+        $this->result = $this->conn->query("SELECT * from tbl_faculty WHERE fa_empnumber='$d->username' and fa_accounttype=1 LIMIT 1");
 
         if ($this->result->num_rows>0) {
             while($res = $this->result->fetch_assoc()){
@@ -213,7 +208,7 @@ class Auth{
 				$existingHash = $res['fa_password'];
             }
 
-            $pCheck = $this->pwordCheck($d->ePass,$existingHash);
+            $pCheck = $this->pwordCheck($d->password,$existingHash);
 
             if ($pCheck) {
             	$token = $this->generateToken($empNo);
@@ -226,14 +221,14 @@ class Auth{
 					'payload'=>$token,
 					'data' =>$this->data,
 					'timestamp'=>date_create(),
-					'prepared_by'=>'Mark Ian Bernardo'
+					'prepared_by'=>'F-Society'
 				);
             } else {
             	return $this->info = array(
 					'status'=>array('remarks'=>false,
 					'message'=>'Invalid employee number or password.'),
 					'timestamp'=>date_create(),
-					'prepared_by'=>'Mark Ian Bernardo' );
+					'prepared_by'=>'F-Society' );
 			}
 			
         } else {
@@ -241,15 +236,99 @@ class Auth{
 					'remarks'=>false,
 					'message'=>'Invalid employee number or password.'),
 				'timestamp'=>date_create(),
-				'prepared_by'=>'Mark Ian Bernardo' );
+				'prepared_by'=>'F-Society' );
 		}
 
 	}
 
-	function checkuser($d){
+	function loginFaculty($d){
+		$this->result = $this->conn->query("SELECT * from tbl_faculty WHERE fa_empnumber='$d->username' LIMIT 1");
 
+        if ($this->result->num_rows>0) {
+            while($res = $this->result->fetch_assoc()){
+                array_push($this->data,$res);
+                $empNo = $res['fa_empnumber'];
+				$existingHash = $res['fa_password'];
+            }
 
-		$this->result = $this->conn->query("SELECT * from tbl_faculty WHERE fa_token='$d->token' LIMIT 1");
+            $pCheck = $this->pwordCheck($d->password,$existingHash);
+
+            if ($pCheck) {
+            	$token = $this->generateToken($empNo);
+            	$this->conn->query("UPDATE tbl_faculty set fa_token='$token' where fa_empnumber=$empNo");
+ 				return $this->info = array(
+					'status'=>array(
+						'remarks'=>true,
+						'message'=>'Login success.'
+					),
+					'payload'=>$token,
+					'data' =>$this->data,
+					'timestamp'=>date_create(),
+					'prepared_by'=>'F-Society' );
+            } else {
+            	return $this->info = array(
+					'status'=>array('remarks'=>false,
+					'message'=>'Invalid employee number or password.'),
+					'timestamp'=>date_create(),
+					'prepared_by'=>'F-Society' );
+			}
+			
+        } else {
+			return $this->info = array('status'=>array(
+					'remarks'=>false,
+					'message'=>'Invalid employee number or password.'),
+				'timestamp'=>date_create(),
+				'prepared_by'=>'F-Society' );
+		}
+
+	}
+
+	function loginStudent($d){
+        $this->result = $this->conn->query("SELECT * from tbl_studentinfo WHERE si_idnumber='$d->username' LIMIT 1");
+
+        if ($this->result->num_rows>0) {
+            while($res = $this->result->fetch_assoc()){
+                array_push($this->data,$res);
+                $studNo = $res['si_idnumber'];
+				$existingHash = $res['si_password'];
+            }
+
+            $pCheck = $this->pwordCheck($d->password,$existingHash);
+
+            if ($pCheck) {
+            	$token = $this->generateToken($studNo);
+            	$this->conn->query("UPDATE tbl_studentinfo set si_token='$token' where si_idnumber=$studNo");
+ 				return $this->info = array(
+					'status'=>array(
+						'remarks'=>true,
+						'message'=>'Login success.'
+					),
+					'payload'=>$token,
+					'data' =>$this->data,
+					'timestamp'=>date_create(),
+					'prepared_by'=>'F-Society'
+				);
+            } else {
+            	return $this->info = array(
+					'status'=>array('remarks'=>false,
+					'message'=>'Invalid student number or password.'),
+					'timestamp'=>date_create(),
+					'prepared_by'=>'F-Society' );
+			}
+			
+        } else {
+			return $this->info = array('status'=>array(
+					'remarks'=>false,
+					'message'=>'Invalid student number or password.'),
+				'timestamp'=>date_create(),
+				'prepared_by'=>'F-Society' );
+		}
+
+	}
+	
+	function checkAdmin($d){
+
+		$this->result = $this->conn->query("SELECT * from tbl_faculty WHERE fa_token='$d->payload' AND fa_accounttype = 1 LIMIT 1");
 
         if ($this->result->num_rows>0) {
 			while($res = $this->result->fetch_assoc()) {
@@ -261,10 +340,10 @@ class Auth{
 					'remarks'=>true,
 					'message'=>'User successfully verified.'
 				),
-				'payload'=>$d->token,
+				'payload'=>$d->payload,
 				'data' =>$this->data,
 				'timestamp'=>date_create(),
-				'prepared_by'=>'Mark Ian Bernardo'
+				'prepared_by'=>'F-Society'
 			);
 
         } else {
@@ -272,7 +351,64 @@ class Auth{
 					'remarks'=>false,
 					'message'=>'Invalid session.'),
 				'timestamp'=>date_create(),
-				'prepared_by'=>'Mark Ian Bernardo' );
+				'prepared_by'=>'F-Society' );
+		}
+	}
+
+	function checkStudent($d){
+		$this->result = $this->conn->query("SELECT * from tbl_studentinfo WHERE si_token='$d->payload' LIMIT 1");
+
+        if ($this->result->num_rows>0) {
+			while($res = $this->result->fetch_assoc()) {
+                array_push($this->data,$res);
+            }
+          
+			return $this->info = array(
+				'status'=>array(
+					'remarks'=>true,
+					'message'=>'User successfully verified.'
+				),
+				'payload'=>$d->payload,
+				'data' =>$this->data,
+				'timestamp'=>date_create(),
+				'prepared_by'=>'F-Society'
+			);
+
+        } else {
+			return $this->info = array('status'=>array(
+					'remarks'=>false,
+					'message'=>'Invalid session.'),
+				'timestamp'=>date_create(),
+				'prepared_by'=>'F-Society' );
+		}
+	}
+
+	function checkFaculty($d){
+
+		$this->result = $this->conn->query("SELECT * from tbl_faculty WHERE fa_token='$d->payload' LIMIT 1");
+
+        if ($this->result->num_rows>0) {
+			while($res = $this->result->fetch_assoc()) {
+                array_push($this->data,$res);
+            }
+          
+			return $this->info = array(
+				'status'=>array(
+					'remarks'=>true,
+					'message'=>'User successfully verified.'
+				),
+				'payload'=>$d->payload,
+				'data' =>$this->data,
+				'timestamp'=>date_create(),
+				'prepared_by'=>'F-Society'
+			);
+
+        } else {
+			return $this->info = array('status'=>array(
+					'remarks'=>false,
+					'message'=>'Invalid session.'),
+				'timestamp'=>date_create(),
+				'prepared_by'=>'F-Society' );
 		}
 	}
 

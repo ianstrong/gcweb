@@ -1,0 +1,198 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-success">
+                      <h4 class="card-title ">Welcome to Profiley</h4>
+                      <p class="card-category">Academic Year 2019-2020</p>
+                  </div>
+                  <div class="card-body">
+                      <div class="row mb-2">
+                        <div class="col-md-4">
+                            <form class="navbar-form" (submit)="searchStudent($event)">
+                                <div class="input-group no-border">
+                                    <input type="number" class="form-control" placeholder="Student Number..." required>
+                                    <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+                                        <i class="material-icons">search</i>
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <form class="navbar-form">
+                                <div class="input-group no-border">
+                                    <select class="form-control" (change)="enrollByBlock($event)">
+                                      <option></option>
+                                      <option *ngFor="let block of courseBlocks.data">{{block.cl_block}}</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                      <div class="table-responsive">
+                          <table class="table table-striped">
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <strong class="text-success">Student Id No.</strong>
+                                  </td>
+                                  <td>{{ studInfo.si_idnumber}}</td>
+                                  <td>
+                                    <strong class="text-success">Program</strong>
+                                  </td>
+                                  <td>{{ studInfo.si_course}}</td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <strong class="text-success">Full Name</strong>
+                                  </td>
+                                  <td>{{ studInfo.si_firstname}} {{ studInfo.si_midname}} {{ studInfo.si_lastname}} {{ studInfo.si_extname}}</td>
+                                  <td>
+                                    <strong class="text-success">Sex at Birth</strong>
+                                  </td>
+                                  <td>{{ studInfo.si_gender}}</td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <strong class="text-success">Address</strong>
+                                  </td>
+                                  <td>{{ studInfo.si_address }}</td>
+                                  <td>
+                                    <strong class="text-success">Zip Code</strong>
+                                  </td>
+                                  <td>{{ studInfo.si_zipcode }}</td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <strong class="text-success">E-mail Address</strong>
+                                  </td>
+                                  <td>{{ studInfo.si_email }}</td>
+                                  <td>
+                                    <strong class="text-success">Contact Number</strong>
+                                  </td>
+                                  <td>{{ studInfo.si_mobile }}</td>
+                                </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      <br>
+
+                      <h4 class="text-primary">Enrolled Subjects For This Semester: </h4>
+                      <div class="table-responsive">
+                        <table class="table table-striped">
+                          <thead>
+                            <th class="text-success">#</th>
+                            <th class="text-success">Class Code</th>
+                            <th class="text-success">Course Code</th>
+                            <th class="text-success">Course Description</th>
+                            <th class="text-success">Lec Units</th>
+                            <th class="text-success">Lab Units</th>
+                            <th class="text-success">RLE Units</th>
+                            <th class="text-success">Room</th>
+                            <th class="text-success">Start Time</th>
+                            <th class="text-success">End Time</th>
+                            <th class="text-success">Day</th>
+                            <th class="text-success">Block</th>
+                            <th class="text-success">Action</th>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let class of enClasses.data; let i = index">
+                              <td>{{i+1}}</td>
+                              <td>{{class.cl_code}}</td>
+                              <td>{{class.cl_sucode}}</td>
+                              <td>{{class.su_description}}</td>
+                              <td>{{class.su_lecunits}}</td>
+                              <td>{{class.su_labunits}}</td>
+                              <td>{{class.su_rleunits}}</td>
+                              <td>{{class.cl_room}}</td>
+                              <td>{{class.cl_stime}}</td>
+                              <td>{{class.cl_etime}}</td>
+                              <td>{{class.cl_day}}</td>
+                              <td>{{class.cl_block}}</td>
+                              <td><button class="btn btn-danger btn-sm" (click)="removeEnrolledSubject(i)">Drop</button></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <a href="./" class="btn btn-info btn-sm" target="_blank">Print Interview</a>
+                      <a href="http://localhost/gcweb_prints/evaluation.php?studentnumber={{studInfo.si_idnumber}}" class="btn btn-info btn-sm" target="_blank">Print Evaluation</a>
+                      <br>
+                      <div class="row mb-2">
+                        <div class="col-md-4">
+                            <div class="navbar-form">
+                                <div class="input-group no-border">
+                                    <input type="text" class="form-control" placeholder="Search..." (keyup)="searchActiveClasses($event)">
+                                    <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+                                        <i class="material-icons">search</i>
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                      <h4 class="text-primary">Active Subjects For This Semester: </h4>
+                      <div class="table-responsive">
+                        <table class="table table-striped">
+                          <thead>
+                            <th class="text-success">#</th>
+                            <th class="text-success">Class Code</th>
+                            <th class="text-success">Course Code</th>
+                            <th class="text-success">Course Description</th>
+                            <th class="text-success">Lec Units</th>
+                            <th class="text-success">Lab Units</th>
+                            <th class="text-success">RLE Units</th>
+                            <th class="text-success">Room</th>
+                            <th class="text-success">Start Time</th>
+                            <th class="text-success">End Time</th>
+                            <th class="text-success">Day</th>
+                            <th class="text-success">Block</th>
+                            <th class="text-success">Action</th>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let class of actClasses.data; let i = index">
+                              <td>{{i+1}}</td>
+                              <td>{{class.cl_code}}</td>
+                              <td>{{class.cl_sucode}}</td>
+                              <td>{{class.su_description}}</td>
+                              <td>{{class.su_lecunits}}</td>
+                              <td>{{class.su_labunits}}</td>
+                              <td>{{class.su_rleunits}}</td>
+                              <td>{{class.cl_room}}</td>
+                              <td>{{class.cl_stime}}</td>
+                              <td>{{class.cl_etime}}</td>
+                              <td>{{class.cl_day}}</td>
+                              <td>{{class.cl_block}}</td>
+                              <td><button class="btn btn-success btn-sm" (click)="enrollSingleClass(i)">Add</button></td>
+
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="uploadModalLabel">Upload Subjects</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form autocomplete="off">
+                  <input class="form-control" name="file" type="file" required>
+                  <button type="submit" class="btn btn-sm btn-success pull-right">Submit</button>
+              </form>
+            </div>
+        </div>
+    </div>
+  </div>

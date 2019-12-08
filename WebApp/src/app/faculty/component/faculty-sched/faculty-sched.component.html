@@ -1,0 +1,99 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-success">
+                      <h4 class="card-title ">List Class Schedules</h4>
+                      <p class="card-category">Academic Year 2019-2020</p>
+                  </div>
+                  <div class="card-body">
+                      <button class="btn btn-info btn-sm" (click)="getClassType('normal')">Normal Load</button>
+                      <button class="btn btn-info btn-sm" (click)="getClassType('extended')">Extended Load</button>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table table-striped">
+                              <thead class=" text-primary">
+                                  <th>No.</th>
+                                  <th>Class Code</th>
+                                  <th>Subject Code</th>
+                                  <th>Time</th>
+                                  <th>Day</th>
+                                  <th>Room</th>
+                                  <th>Action</th>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let class of classes.data; let i = index">
+                                      <td>{{ i+1 }}</td>
+                                      <td>{{ class.cl_code }}</td>
+                                      <td>{{ class.cl_sucode }}</td>
+                                      <td>{{ class.cl_day }}</td>
+                                      <td>{{ class.cl_time }}</td>
+                                      <td>{{ 'Rm ' + class.cl_room }}</td>
+                                      <td><button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#exampleModal" (click)="getClassStudents(class.cl_code)">View Students</button></td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title" id="exampleModalLabel">Students for class: <strong class="text-success">{{ classIdModal }}</strong></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              Upload Grade
+              <form (submit)="uploadGrades($event)">
+                  <div class="row">
+                      <input type="hidden" [value]="classIdModal">
+                      <div class="col-md-9">
+                          <input type="file" class="form-control" [value]="fileModal" required>
+                      </div>
+                      <div class="col-md-3">
+                          <button type="submit" class="btn btn-sm btn-success btn-block">Upload</button>
+                      </div>
+                  </div>
+              </form>
+
+
+              <hr>
+              <div class="table-responsive">
+                  <table class="table table-striped">
+                      <thead class=" text-primary">
+                          <th>No.</th>
+                          <th>Student ID</th>
+                          <th>Name</th>
+                          <th>Midterm Grade</th>
+                          <th>Final Grade</th>
+                          <th>Remarks</th>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let student of students.data; let i = index">
+                              <td>{{ i+1 }}</td>
+                              <td>{{ student.si_idnumber }}</td>
+                              <td>{{ student.si_fullname }}</td>
+                              <td>{{ student.es_mgrade }}</td>
+                              <td>{{ student.es_fgrade }}</td>
+                              <td>{{ student.es_remarks }}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

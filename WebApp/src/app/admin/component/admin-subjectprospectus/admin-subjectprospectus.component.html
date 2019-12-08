@@ -1,0 +1,87 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <button class="btn btn-block btn-sm btn-info" data-toggle="modal" data-target="#uploadModal">
+            Upload Subjects
+          </button>
+        </div>
+
+        <div class="col-md-3">
+          <select class="form-control" (click)="getCY($event)">
+            <option></option>
+            <option *ngFor="let course of courses.data">{{ course.co_name }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <select class="form-control" (change)="getSubjects($event)">
+              <option></option>
+              <option *ngFor="let cy of curriculumYear.data">{{ cy.su_cy }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-success">
+                      <h4 class="card-title ">List Class Schedules</h4>
+                      <p class="card-category">Academic Year 2019-2020</p>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table table-striped">
+                              <thead class=" text-primary">
+                                  <th>No.</th>
+                                  <th>Subject Code</th>
+                                  <th>Subject Description</th>
+                                  <th>Lab Units</th>
+                                  <th>Lec Units</th>
+                                  <th>RLE Units</th>
+                                  <th>Year Level</th>
+                                  <th>Semester</th>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let subject of subjects.data; let i = index">
+                                    <td *ngIf="subject.su_yrlevel=='1'">{{ i+1 }}</td>
+                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_code }}</td>
+                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_description }}</td>
+                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_labunits }}</td>
+                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_lecunits }}</td>
+                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_rleunits }}</td>
+                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_yrlevel }}</td>
+                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_sem }}</td>
+                                    <td *ngIf="subject.su_yrlevel=='1'">
+                                      <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#exampleModal">Edit</button>
+                                    </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="uploadModalLabel">Upload Subjects</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form (submit)="uploadSubjects($event)" autocomplete="off">
+                  <input class="form-control" name="file" type="file" required>
+                  <button type="submit" class="btn btn-sm btn-success pull-right">Submit</button>
+              </form>
+            </div>
+        </div>
+    </div>
+  </div>
