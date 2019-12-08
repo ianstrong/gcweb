@@ -152,6 +152,15 @@
             return $this->executeWithRes("UPDATE tbl_studentinfo SET si_email = $d->$email, si_address = $d->$address WHERE si_idnumber=$d->$si_idnumber");
         }
 
+        function getCourses($d){
+            if($d->dept!=''){
+                return $this->executeWithRes("SELECT * FROM tbl_courses WHERE co_dept = '$d->dept'");
+            } else{
+                return $this->executeWithRes("SELECT * FROM tbl_courses");
+            }
+            
+        }
+
         function uploadImageStudent(){
             if(isset($_FILES['file'])){
 

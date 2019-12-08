@@ -156,6 +156,11 @@
                     echo json_encode($post->updateStudentProfile($d));
                 break;
 
+                case 'getCourses':
+                    $d = json_decode( base64_decode( file_get_contents('php://input')));
+                    echo json_encode($post->getCourses($d));
+                break;
+
                 // data pushing related cases
                 case 'addfile':
                     echo json_encode($post->addfile());
