@@ -248,7 +248,7 @@
             }
 
             function getSettings($d) {
-                return $this->executeWithRes("SELECT * from tbl_settings");
+                return $this->executeWithRes("SELECT * from tbl_enlistment WHERE en_isactive = 'ACTIVE'");
             }
 
             function getEnrolledClasses($d) {
@@ -368,7 +368,7 @@
                         $device = $d->device;
                         $devices = implode(",", $device);
                 }
-                $department = $d->department
+                $department = $d->department;
                 $siblings = $d->siblings;
                 $mother = $d->mother;
                 $motheroccupation = $d->motheroccupation;
