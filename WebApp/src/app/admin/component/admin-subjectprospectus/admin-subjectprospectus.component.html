@@ -2,19 +2,22 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3">
-        <button class="btn btn-block btn-sm btn-info" data-toggle="modal" data-target="#uploadModal">
+        <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#addModal">
+          Add Subject
+        </button>
+        <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#uploadModal">
           Upload Subjects
         </button>
       </div>
       <div class="col-md-3">
-        <select class="form-control" (click)="getCY($event)">
+        <select class="form-control" (click)="getCY($event)" [(ngModel)]="selectSubject">
           <option></option>
           <option *ngFor="let course of courses.data">{{ course.co_name }}</option>
         </select>
       </div>
 
       <div class="col-md-3">
-        <select class="form-control" (change)="getSubjects($event)">
+        <select class="form-control" (change)="getSubjects($event)" [(ngModel)]="subjectCY">
           <option></option>
           <option *ngFor="let cy of curriculumYear.data">{{ cy.su_cy }}</option>
         </select>
@@ -72,7 +75,7 @@
                     <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_sem }}</td>
                     <td *ngIf="subject.su_yrlevel=='1'">
                       <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#editModal" (click)=editSubject(subject)>Edit</button>
-                      <button class="btn btn-danger btn-sm btn-round" >Delete</button>
+                      <button class="btn btn-danger btn-sm btn-round" (click)=delProspectus(subject)>Delete</button>
                     </td>
                   </tr>
                 </tbody>
@@ -111,7 +114,8 @@
                                 <td *ngIf="subject.su_yrlevel=='2'">{{ subject.su_rleunits }}</td>
                                 <td *ngIf="subject.su_yrlevel=='2'">{{ subject.su_sem }}</td>
                                 <td *ngIf="subject.su_yrlevel=='2'">
-                                  <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#exampleModal">Edit</button>
+                                    <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#editModal" (click)=editSubject(subject)>Edit</button>
+                                    <button class="btn btn-danger btn-sm btn-round" (click)=delProspectus(subject)>Delete</button>
                                 </td>
                               </tr>
                           </tbody>
@@ -150,8 +154,8 @@
                               <td *ngIf="subject.su_yrlevel=='3'">{{ subject.su_rleunits }}</td>
                               <td *ngIf="subject.su_yrlevel=='3'">{{ subject.su_sem }}</td>
                               <td *ngIf="subject.su_yrlevel=='3'">
-                                <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#exampleModal">Edit</button>
-                                <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#exampleModal">Delete</button>
+                                  <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#editModal" (click)=editSubject(subject)>Edit</button>
+                                  <button class="btn btn-danger btn-sm btn-round" (click)=delProspectus(subject)>Delete</button>
                               </td>
                             </tr>
                         </tbody>
@@ -190,7 +194,8 @@
                             <td *ngIf="subject.su_yrlevel=='4'">{{ subject.su_rleunits }}</td>
                             <td *ngIf="subject.su_yrlevel=='4'">{{ subject.su_sem }}</td>
                             <td *ngIf="subject.su_yrlevel=='4'">
-                              <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#exampleModal">Edit</button>
+                                <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#editModal" (click)=editSubject(subject)>Edit</button>
+                                <button class="btn btn-danger btn-sm btn-round" (click)=delProspectus(subject)>Delete</button>
                             </td>
                           </tr>
                       </tbody>
@@ -286,4 +291,64 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="uploadModalLabel">Add Subject</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form autocomplete="off" (submit)="addProspectus($event)">
+          <div class="form-group">
+              <label for="name2">Subject Code</label>
+              <input class="form-control" name="name2" type="text" required [(ngModel)]="prospectusInfo.suCode">
+          </div>
+          <div class="form-group">
+              <label for="name3">Subject Description</label>
+              <input class="form-control" name="name3" type="text" required [(ngModel)]="prospectusInfo.suDesc">
+          </div>
+          <div class="form-group">
+              <label for="name4">Lecture Units</label>
+              <input class="form-control" name="name4" type="number" required [(ngModel)]="prospectusInfo.suLecu">
+          </div>
+          <div class="form-group">
+              <label for="name5">Lab Units</label>
+              <input class="form-control" name="name5" type="number" required [(ngModel)]="prospectusInfo.suLabu">
+          </div>
+          <div class="form-group">
+              <label for="name6">RLE Units</label>
+              <input class="form-control" name="name6" type="number" required [(ngModel)]="prospectusInfo.suRleu">
+          </div>
+          <div class="form-group">
+              <label for="name7">Prerequisite</label>
+              <input class="form-control" name="name7" type="text" required [(ngModel)]="prospectusInfo.suPre">
+          </div>
+          <div class="form-group">
+              <label for="name8">Semester</label>
+              <input class="form-control" name="name8" type="text" required [(ngModel)]="prospectusInfo.suSem">
+          </div>
+          <div class="form-group">
+              <label for="name9">Year Level</label>
+              <input class="form-control" name="name9" type="text" required [(ngModel)]="prospectusInfo.suYear">
+          </div>
+          <div class="form-group">
+              <label for="name10">Curriculum Year</label>
+              <input class="form-control" name="name10" type="text" required [(ngModel)]="prospectusInfo.suCy">
+          </div>
+          <div class="form-group">
+              <label for="name11">Course/Program</label>
+              <input class="form-control" name="name11" type="text" required [(ngModel)]="prospectusInfo.suCourse">
+          </div>
+          <button type="submit" class="btn btn-sm btn-success pull-right">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 

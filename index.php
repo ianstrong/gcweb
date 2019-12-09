@@ -88,10 +88,20 @@
                     case 'uploadProspectus':
                         echo json_encode($post->uploadProspectus()); 
                     break;
-
+                    
                     case 'updateProspectus':
                         $d = json_decode( base64_decode( file_get_contents('php://input')));
                         echo json_encode($post->updateProspectus($d)); 
+                    break;
+
+                    case 'addProspectus':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->addProspectus($d)); 
+                    break;
+
+                    case 'delProspectus':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->delProspectus($d)); 
                     break;
                     
                     // options in selects in admin/subjectprospectus

@@ -11,124 +11,125 @@
             $this->conn = $db;
         }
 
-        // admin/facultymembers
-        function getFaculty($d){
-            return $this->executeWithRes("SELECT * from tbl_faculty WHERE fa_department='".$d->data[0]->fa_department."' ORDER BY fa_lname,fa_fname,fa_mname,fa_extname ASC");
-        }
+        // admin/facultymembers (page)
+                function getFaculty($d){
+                    return $this->executeWithRes("SELECT * from tbl_faculty WHERE fa_department='".$d->data[0]->fa_department."' ORDER BY fa_lname,fa_fname,fa_mname,fa_extname ASC");
+                }
 
-        function delFaculty($d){
-            return $this->executeWithoutRes("DELETE from tbl_faculty WHERE fa_empnumber='$d->empNo'");
-        }
+                function delFaculty($d){
+                    return $this->executeWithoutRes("DELETE from tbl_faculty WHERE fa_empnumber='$d->empNo'");
+                }
 
-        function addFaculty($d){
-            return $this->executeWithoutRes("DELETE from tbl_faculty WHERE fa_empnumber='$d->empNo'");
-        }
+                function addFaculty($d){
+                    return $this->executeWithoutRes("DELETE from tbl_faculty WHERE fa_empnumber='$d->empNo'");
+                }
 
-        // admin/subjectprospectus
-        function getProspectus($d){
-            return $this->executeWithRes("SELECT * from tbl_subjects WHERE su_course='$d->courseName'AND su_cy='$d->syCy' ORDER BY su_yrlevel, su_sem ASC");
-        }
+        // admin/subjectprospectus (page)
+                function getProspectus($d){
+                    return $this->executeWithRes("SELECT * from tbl_subjects WHERE su_course='$d->courseName'AND su_cy='$d->syCy' ORDER BY su_yrlevel, su_sem ASC");
+                }
 
-        function addProspectus($d){
-            return $this->executeWithRes("INSERT INTO tbl_subjects (su_code, su_description, su_lecunits, su_labunits, su_rleunits, su_prereq, su_sem, su_yrlevel, su_cy, su_course) VALUES ('$d->suCode', '$d->suDesc', $d->suLecu, $d->suLabu, $d->suRleu, '$d->suPre', $d->suSem, $d->suYear, '$d->su_Cy', '$d->suCourse')");
-        }
+                function addProspectus($d){
+                    return $this->executeWithoutRes("INSERT INTO tbl_subjects (su_code, su_description, su_lecunits, su_labunits, su_rleunits, su_prereq, su_sem, su_yrlevel, su_cy, su_course) VALUES ('$d->suCode', '$d->suDesc', '$d->suLecu', '$d->suLabu', '$d->suRleu', '$d->suPre', '$d->suSem', $d->suYear, '$d->suCy', '$d->suCourse')");
+                }
 
-        function delProspectus($d){
-            return $this->executeWithoutRes("DELETE from tbl_subjects WHERE su_recno='$d->recNo'");
-        }
-        
-        function updateProspectus($d){
-            return $this->executeWithoutRes("UPDATE tbl_subjects SET su_code='$d->suCode',su_description='$d->suDesc',su_lecunits=$d->suLecu,su_labunits=$d->suLabu,su_rleunits=$d->suRleu,su_prereq='$d->suPre',su_sem=$d->suSem,su_yrlevel=$d->suYear,su_cy='$d->suCy',su_course='$d->suCourse' WHERE su_recno = $d->recNo");
-        }
+                function delProspectus($d){
+                    return $this->executeWithoutRes("DELETE from tbl_subjects WHERE su_recno='$d->su_recno'");
+                }
+                
+                function updateProspectus($d){
+                    return $this->executeWithoutRes("UPDATE tbl_subjects SET su_code='$d->suCode',su_description='$d->suDesc',su_lecunits='$d->suLecu',su_labunits='$d->suLabu',su_rleunits='$d->suRleu',su_prereq='$d->suPre',su_sem='$d->suSem',su_yrlevel='$d->suYear',su_cy='$d->suCy',su_course='$d->suCourse' WHERE su_recno = '$d->recNo'");
+                }
 
-        function uploadProspectus(){
-            if(isset($_FILES['file'])){
-    
-                $file_name = $_FILES['file']['name'];
-                $target_dir = "../filesFP/".$file_name;
-                $file_explodedname = explode('.', $file_name);
-                $file_ext = strtolower(end($file_explodedname) );
-    
-                $extensions = array("xlsx");
-    
-                if(in_array($file_ext,$extensions)){ // check if file is excel
-    
-                    if(move_uploaded_file($_FILES['file']['tmp_name'], $target_dir)){
-    
-                        require_once "Classes/PHPExcel.php";
-                        
-                        $excelReader = PHPExcel_IOFactory::createReaderForFile($target_dir);
-                        $excelObj = $excelReader->load($target_dir);
-                        $worksheet = $excelObj->getSheet(0);
-                        $lastRow = $worksheet->getHighestRow();
-    
-                        for ($row = 4; $row <= $lastRow; $row++) {
-                            
-                            $proCode = $worksheet->getCell('A'.$row)->getValue();
-                            $proTitle = $worksheet->getCell('B'.$row)->getValue();
-                            $proLecu = $worksheet->getCell('C'.$row)->getValue();
-                            $proLabu = $worksheet->getCell('D'.$row)->getValue();
-                            $proRleu = $worksheet->getCell('E'.$row)->getValue();
-                            $proPre = $worksheet->getCell('F'.$row)->getValue();
-                            $proSem = $worksheet->getCell('G'.$row)->getValue();
-                            $proYear = $worksheet->getCell('H'.$row)->getValue();
-                            $proCourse = $worksheet->getCell('B2')->getValue();
-                            $proCy = $worksheet->getCell('H2')->getValue();
-                            $query = "INSERT INTO tbl_subjects(su_code,su_description,su_lecunits,su_labunits,su_rleunits,su_prereq,su_sem,su_yrlevel,su_cy,su_course)
-                             VALUES('$proCode','$proTitle','$proLecu','$proLabu','$proRleu','$proPre','$proSem','$proYear','$proCy','$proCourse')";
-                            
-                            $this->conn->query($query);
-    
+                function uploadProspectus(){
+                    if(isset($_FILES['file'])){
+            
+                        $file_name = $_FILES['file']['name'];
+                        $target_dir = "../filesFP/".$file_name;
+                        $file_explodedname = explode('.', $file_name);
+                        $file_ext = strtolower(end($file_explodedname) );
+            
+                        $extensions = array("xlsx");
+            
+                        if(in_array($file_ext,$extensions)){ // check if file is excel
+            
+                            if(move_uploaded_file($_FILES['file']['tmp_name'], $target_dir)){
+            
+                                require_once "Classes/PHPExcel.php";
+                                
+                                $excelReader = PHPExcel_IOFactory::createReaderForFile($target_dir);
+                                $excelObj = $excelReader->load($target_dir);
+                                $worksheet = $excelObj->getSheet(0);
+                                $lastRow = $worksheet->getHighestRow();
+            
+                                for ($row = 4; $row <= $lastRow; $row++) {
+                                    
+                                    $proCode = $worksheet->getCell('A'.$row)->getValue();
+                                    $proTitle = $worksheet->getCell('B'.$row)->getValue();
+                                    $proLecu = $worksheet->getCell('C'.$row)->getValue();
+                                    $proLabu = $worksheet->getCell('D'.$row)->getValue();
+                                    $proRleu = $worksheet->getCell('E'.$row)->getValue();
+                                    $proPre = $worksheet->getCell('F'.$row)->getValue();
+                                    $proSem = $worksheet->getCell('G'.$row)->getValue();
+                                    $proYear = $worksheet->getCell('H'.$row)->getValue();
+                                    $proCourse = $worksheet->getCell('B2')->getValue();
+                                    $proCy = $worksheet->getCell('H2')->getValue();
+                                    $query = "INSERT INTO tbl_subjects(su_code,su_description,su_lecunits,su_labunits,su_rleunits,su_prereq,su_sem,su_yrlevel,su_cy,su_course)
+                                    VALUES('$proCode','$proTitle','$proLecu','$proLabu','$proRleu','$proPre','$proSem','$proYear','$proCy','$proCourse')";
+                                    
+                                    $this->conn->query($query);
+            
+                                }
+                                
+                                return $this->info = array(
+                                    'status'=>array(
+                                        'remarks'=>true,
+                                        'message'=>'Uploading success.'
+                                    ),
+                                    'data' =>$this->data,
+                                    'timestamp'=>date_create(),
+                                    'prepared_by'=>'F-Society'
+                                );
+            
+                            }else{
+                                return $this->info = array('status'=>array(
+                                    'remarks'=>false,
+                                    'message'=>'Uploading failed.'),
+                                'timestamp'=>date_create(),
+                                'prepared_by'=>'F-Society' );
+                            }
+            
+                        }else{
+                            return $this->info = array('status'=>array(
+                                'remarks'=>false,
+                                'message'=>'Invalid file for uploading faculty.'),
+                            'timestamp'=>date_create(),
+                            'prepared_by'=>'F-Society' );
                         }
                         
-                        return $this->info = array(
-                            'status'=>array(
-                                'remarks'=>true,
-                                'message'=>'Uploading success.'
-                            ),
-                            'data' =>$this->data,
-                            'timestamp'=>date_create(),
-                            'prepared_by'=>'F-Society'
-                        );
-    
+                        
                     }else{
                         return $this->info = array('status'=>array(
                             'remarks'=>false,
-                            'message'=>'Uploading failed.'),
+                            'message'=>'No file uploaded.'),
                         'timestamp'=>date_create(),
                         'prepared_by'=>'F-Society' );
                     }
-    
-                }else{
-                    return $this->info = array('status'=>array(
-                        'remarks'=>false,
-                        'message'=>'Invalid file for uploading faculty.'),
-                    'timestamp'=>date_create(),
-                    'prepared_by'=>'F-Society' );
+            
                 }
-                
-                
-            }else{
-                return $this->info = array('status'=>array(
-                    'remarks'=>false,
-                    'message'=>'No file uploaded.'),
-                'timestamp'=>date_create(),
-                'prepared_by'=>'F-Society' );
-            }
-    
-        }
+
+                // admin/filters
+                function getProspectusCourse($d){
+                    return $this->executeWithRes("SELECT DISTINCT co_name from tbl_courses WHERE co_dept = '$d->deptName'");
+                }
+                function getProspectusCy($d){
+                    return $this->executeWithRes("SELECT DISTINCT su_cy from tbl_subjects WHERE su_course = '$d->courseName'");
+                }
 
 
 
 
-        
-        // admin/filters
-        function getProspectusCourse($d){
-            return $this->executeWithRes("SELECT DISTINCT co_name from tbl_courses WHERE co_dept = '$d->deptName'");
-        }
-        function getProspectusCy($d){
-            return $this->executeWithRes("SELECT DISTINCT su_cy from tbl_subjects WHERE su_course = '$d->courseName'");
-        }
+
 
         // students/schedule
         function getStudentSchedule($d){
@@ -372,7 +373,7 @@
                         $device = $d->device;
                         $devices = implode(",", $device);
                 }
-                $department = $d->department
+                $department = $d->department;
                 $siblings = $d->siblings;
                 $mother = $d->mother;
                 $motheroccupation = $d->motheroccupation;

@@ -15,6 +15,8 @@ export class AdminSubjectprospectusComponent implements OnInit {
   subjects: any = {};
   credAdmin: any = {};
   show: boolean;
+  selectSubject: string;
+  subjectCY: string;
 
   constructor(private ds: DataService) { }
 
@@ -31,7 +33,6 @@ export class AdminSubjectprospectusComponent implements OnInit {
     });
   }
 
-
   getCourse() {
     this.prospectusInfo.deptName = this.credAdmin.data[0].fa_department;
     this.ds.sendRequest('getProspectusCourse', this.prospectusInfo).subscribe((res) => {
@@ -41,14 +42,14 @@ export class AdminSubjectprospectusComponent implements OnInit {
 
   getCY(e) {
     this.show = false;
-    this.prospectusInfo.courseName = e.target.value;
+    this.prospectusInfo.courseName = this.selectSubject;
     this.ds.sendRequest('getProspectusCy', this.prospectusInfo).subscribe((res) => {
       this.curriculumYear = res;
     });
   }
 
-  getSubjects(e) {
-    this.prospectusInfo.syCy = e.target.value;
+  getSubjects(e: any) {
+    this.prospectusInfo.syCy = this.subjectCY;
     this.ds.sendRequest('getProspectus', this.prospectusInfo).subscribe((res) => {
       this.subjects = res;
       this.show = true;
@@ -69,7 +70,6 @@ export class AdminSubjectprospectusComponent implements OnInit {
         Swal.fire({ title: 'Failed!' , text: res.status.message , icon: 'error' });
       }
     });
-
   }
 
   editSubject(e) {
@@ -87,12 +87,36 @@ export class AdminSubjectprospectusComponent implements OnInit {
 
   }
 
+  addProspectus(e) {
+    e.preventDefault();
+    this.ds.sendRequest('addProspectus', this.prospectusInfo).subscribe((res) => {
+      if (res.status.remarks) {
+        Swal.fire({ title: 'Success!' , text: res.status.message , icon: 'success' });
+        this.getSubjects(null);
+      } else {
+        Swal.fire({ title: 'Failed!' , text: res.status.message , icon: 'error' });
+      }
+    });
+  }
+
   updateProspectus(e) {
     e.preventDefault();
     this.ds.sendRequest('updateProspectus', this.prospectusInfo).subscribe((res) => {
       if (res.status.remarks) {
         Swal.fire({ title: 'Success!' , text: res.status.message , icon: 'success' });
-        this.show = false;
+        this.getSubjects(null);
+      } else {
+        Swal.fire({ title: 'Failed!' , text: res.status.message , icon: 'error' });
+      }
+    });
+  }
+
+  delProspectus(e) {
+    console.log(e);
+    this.ds.sendRequest('delProspectus', e).subscribe((res) => {
+      if (res.status.remarks) {
+        Swal.fire({ title: 'Success!' , text: res.status.message , icon: 'success' });
+        this.getSubjects(null);
       } else {
         Swal.fire({ title: 'Failed!' , text: res.status.message , icon: 'error' });
       }
