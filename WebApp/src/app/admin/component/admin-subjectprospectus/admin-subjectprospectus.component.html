@@ -1,87 +1,354 @@
 <div class="main-content">
   <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-3">
-          <button class="btn btn-block btn-sm btn-info" data-toggle="modal" data-target="#uploadModal">
-            Upload Subjects
-          </button>
-        </div>
-
-        <div class="col-md-3">
-          <select class="form-control" (click)="getCY($event)">
-            <option></option>
-            <option *ngFor="let course of courses.data">{{ course.co_name }}</option>
-          </select>
-        </div>
-
-        <div class="col-md-3">
-          <select class="form-control" (change)="getSubjects($event)">
-              <option></option>
-              <option *ngFor="let cy of curriculumYear.data">{{ cy.su_cy }}</option>
-          </select>
-        </div>
+    <div class="row">
+      <div class="col-md-3">
+        <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#addModal">
+          Add Subject
+        </button>
+        <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#uploadModal">
+          Upload Subjects
+        </button>
+      </div>
+      <div class="col-md-3">
+        <select class="form-control" (click)="getCY($event)" [(ngModel)]="selectSubject">
+          <option></option>
+          <option *ngFor="let course of courses.data">{{ course.co_name }}</option>
+        </select>
       </div>
 
+      <div class="col-md-3">
+        <select class="form-control" (change)="getSubjects($event)" [(ngModel)]="subjectCY">
+          <option></option>
+          <option *ngFor="let cy of curriculumYear.data">{{ cy.su_cy }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div *ngIf="!show">
       <div class="row">
-          <div class="col-md-12">
-              <div class="card">
-                  <div class="card-header card-header-success">
-                      <h4 class="card-title ">List Class Schedules</h4>
-                      <p class="card-category">Academic Year 2019-2020</p>
-                  </div>
-                  <div class="card-body">
-                      <div class="table-responsive">
-                          <table class="table table-striped">
-                              <thead class=" text-primary">
-                                  <th>No.</th>
-                                  <th>Subject Code</th>
-                                  <th>Subject Description</th>
-                                  <th>Lab Units</th>
-                                  <th>Lec Units</th>
-                                  <th>RLE Units</th>
-                                  <th>Year Level</th>
-                                  <th>Semester</th>
-                              </thead>
-                              <tbody>
-                                  <tr *ngFor="let subject of subjects.data; let i = index">
-                                    <td *ngIf="subject.su_yrlevel=='1'">{{ i+1 }}</td>
-                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_code }}</td>
-                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_description }}</td>
-                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_labunits }}</td>
-                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_lecunits }}</td>
-                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_rleunits }}</td>
-                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_yrlevel }}</td>
-                                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_sem }}</td>
-                                    <td *ngIf="subject.su_yrlevel=='1'">
-                                      <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#exampleModal">Edit</button>
-                                    </td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
+        <div class="col-md-12">
+          <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title ">Prospectus</h4>
+            <p class="card-category">Gordon College {{prospectusInfo.deptName}}</p>
+          </div>
+          <div class="card-body text-center text-secondary">
+            <br>
+            <br>
+            <h1><i class="material-icons">data_usage</i></h1>
+            <h1> Please select program and curriculum year.</h1>
+            <br>
+            <br>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="show">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-success">
+              <h4 class="card-title ">List of Subjects for <strong>{{ prospectusInfo.courseName }}</strong> 1st Year</h4>
+              <p class="card-category">Curriculum Year <strong>{{ prospectusInfo.syCy }}</strong></p>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+              <table class="table table-striped">
+                <thead class=" text-primary">
+                  <th>No.</th>
+                  <th>Subject Code</th>
+                  <th>Subject Description</th>
+                  <th>Lab Units</th>
+                  <th>Lec Units</th>
+                  <th>RLE Units</th>
+                  <th>Semester</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let subject of subjects.data; let i = index">
+                    <td *ngIf="subject.su_yrlevel=='1'">{{ i+1 }}</td>
+                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_code }}</td>
+                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_description }}</td>
+                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_labunits }}</td>
+                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_lecunits }}</td>
+                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_rleunits }}</td>
+                    <td *ngIf="subject.su_yrlevel=='1'">{{ subject.su_sem }}</td>
+                    <td *ngIf="subject.su_yrlevel=='1'">
+                      <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#editModal" (click)=editSubject(subject)>Edit</button>
+                      <button class="btn btn-danger btn-sm btn-round" (click)=delProspectus(subject)>Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="card-header card-header-success">
+                <h4 class="card-title ">List of Subjects for <strong>{{ prospectusInfo.courseName }}</strong>  2nd Year</h4>
+                <p class="card-category">Curriculum Year <strong>{{ prospectusInfo.syCy }}</strong></p>
+              </div>
+              <div class="card-body">
+                  <div class="table-responsive">
+                      <table class="table table-striped">
+                          <thead class=" text-primary">
+                              <th>No.</th>
+                              <th>Subject Code</th>
+                              <th>Subject Description</th>
+                              <th>Lab Units</th>
+                              <th>Lec Units</th>
+                              <th>RLE Units</th>
+                              <th>Semester</th>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let subject of subjects.data; let i = index">
+                                <td *ngIf="subject.su_yrlevel=='2'">{{ i+1 }}</td>
+                                <td *ngIf="subject.su_yrlevel=='2'">{{ subject.su_code }}</td>
+                                <td *ngIf="subject.su_yrlevel=='2'">{{ subject.su_description }}</td>
+                                <td *ngIf="subject.su_yrlevel=='2'">{{ subject.su_labunits }}</td>
+                                <td *ngIf="subject.su_yrlevel=='2'">{{ subject.su_lecunits }}</td>
+                                <td *ngIf="subject.su_yrlevel=='2'">{{ subject.su_rleunits }}</td>
+                                <td *ngIf="subject.su_yrlevel=='2'">{{ subject.su_sem }}</td>
+                                <td *ngIf="subject.su_yrlevel=='2'">
+                                    <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#editModal" (click)=editSubject(subject)>Edit</button>
+                                    <button class="btn btn-danger btn-sm btn-round" (click)=delProspectus(subject)>Delete</button>
+                                </td>
+                              </tr>
+                          </tbody>
+                      </table>
                   </div>
               </div>
           </div>
       </div>
   </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-success">
+              <h4 class="card-title ">List of Subjects for <strong>{{ prospectusInfo.courseName }}</strong>  3rd Year</h4>
+              <p class="card-category">Curriculum Year <strong>{{ prospectusInfo.syCy }}</strong></p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class=" text-primary">
+                            <th>No.</th>
+                            <th>Subject Code</th>
+                            <th>Subject Description</th>
+                            <th>Lab Units</th>
+                            <th>Lec Units</th>
+                            <th>RLE Units</th>
+                            <th>Semester</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let subject of subjects.data; let i = index">
+                              <td *ngIf="subject.su_yrlevel=='3'">{{ i+1 }}</td>
+                              <td *ngIf="subject.su_yrlevel=='3'">{{ subject.su_code }}</td>
+                              <td *ngIf="subject.su_yrlevel=='3'">{{ subject.su_description }}</td>
+                              <td *ngIf="subject.su_yrlevel=='3'">{{ subject.su_labunits }}</td>
+                              <td *ngIf="subject.su_yrlevel=='3'">{{ subject.su_lecunits }}</td>
+                              <td *ngIf="subject.su_yrlevel=='3'">{{ subject.su_rleunits }}</td>
+                              <td *ngIf="subject.su_yrlevel=='3'">{{ subject.su_sem }}</td>
+                              <td *ngIf="subject.su_yrlevel=='3'">
+                                  <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#editModal" (click)=editSubject(subject)>Edit</button>
+                                  <button class="btn btn-danger btn-sm btn-round" (click)=delProspectus(subject)>Delete</button>
+                              </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+      <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title ">List of Subjects for <strong>{{ prospectusInfo.courseName }}</strong>  4th Year</h4>
+            <p class="card-category">Curriculum Year <strong>{{ prospectusInfo.syCy }}</strong></p>
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-striped">
+                      <thead class=" text-primary">
+                          <th>No.</th>
+                          <th>Subject Code</th>
+                          <th>Subject Description</th>
+                          <th>Lab Units</th>
+                          <th>Lec Units</th>
+                          <th>RLE Units</th>
+                          <th>Semester</th>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let subject of subjects.data; let i = index">
+                            <td *ngIf="subject.su_yrlevel=='4'">{{ i+1 }}</td>
+                            <td *ngIf="subject.su_yrlevel=='4'">{{ subject.su_code }}</td>
+                            <td *ngIf="subject.su_yrlevel=='4'">{{ subject.su_description }}</td>
+                            <td *ngIf="subject.su_yrlevel=='4'">{{ subject.su_labunits }}</td>
+                            <td *ngIf="subject.su_yrlevel=='4'">{{ subject.su_lecunits }}</td>
+                            <td *ngIf="subject.su_yrlevel=='4'">{{ subject.su_rleunits }}</td>
+                            <td *ngIf="subject.su_yrlevel=='4'">{{ subject.su_sem }}</td>
+                            <td *ngIf="subject.su_yrlevel=='4'">
+                                <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#editModal" (click)=editSubject(subject)>Edit</button>
+                                <button class="btn btn-danger btn-sm btn-round" (click)=delProspectus(subject)>Delete</button>
+                            </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+    </div>
+  </div>
 </div>
 
 
 <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="uploadModalLabel">Upload Subjects</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-              <form (submit)="uploadSubjects($event)" autocomplete="off">
-                  <input class="form-control" name="file" type="file" required>
-                  <button type="submit" class="btn btn-sm btn-success pull-right">Submit</button>
-              </form>
-            </div>
-        </div>
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="uploadModalLabel">Upload Subjects</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="uploadSubjects($event)" autocomplete="off">
+          <input class="form-control" name="file" type="file" required>
+          <button type="submit" class="btn btn-sm btn-success pull-right">Submit</button>
+        </form>
+      </div>
     </div>
   </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="uploadModalLabel">Edit Subjects</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form autocomplete="off" (submit)="updateProspectus($event)">
+          <div class="form-group">
+              <label for="name1">Record Number</label>
+              <input class="form-control" name="name1" type="text" disabled [(ngModel)]="prospectusInfo.recNo" disabled>
+          </div>
+          <div class="form-group">
+              <label for="name2">Subject Code</label>
+              <input class="form-control" name="name2" type="text" required [(ngModel)]="prospectusInfo.suCode">
+          </div>
+          <div class="form-group">
+              <label for="name3">Subject Description</label>
+              <input class="form-control" name="name3" type="text" required [(ngModel)]="prospectusInfo.suDesc">
+          </div>
+          <div class="form-group">
+              <label for="name4">Lecture Units</label>
+              <input class="form-control" name="name4" type="number" required [(ngModel)]="prospectusInfo.suLecu">
+          </div>
+          <div class="form-group">
+              <label for="name5">Lab Units</label>
+              <input class="form-control" name="name5" type="number" required [(ngModel)]="prospectusInfo.suLabu">
+          </div>
+          <div class="form-group">
+              <label for="name6">RLE Units</label>
+              <input class="form-control" name="name6" type="number" required [(ngModel)]="prospectusInfo.suRleu">
+          </div>
+          <div class="form-group">
+              <label for="name7">Prerequisite</label>
+              <input class="form-control" name="name7" type="text" required [(ngModel)]="prospectusInfo.suPre">
+          </div>
+          <div class="form-group">
+              <label for="name8">Semester</label>
+              <input class="form-control" name="name8" type="text" required [(ngModel)]="prospectusInfo.suSem">
+          </div>
+          <div class="form-group">
+              <label for="name9">Year Level</label>
+              <input class="form-control" name="name9" type="text" required [(ngModel)]="prospectusInfo.suYear">
+          </div>
+          <div class="form-group">
+              <label for="name10">Curriculum Year</label>
+              <input class="form-control" name="name10" type="text" required [(ngModel)]="prospectusInfo.suCy">
+          </div>
+          <div class="form-group">
+              <label for="name11">Course/Program</label>
+              <input class="form-control" name="name11" type="text" required [(ngModel)]="prospectusInfo.suCourse">
+          </div>
+          <button type="submit" class="btn btn-sm btn-success pull-right">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="uploadModalLabel">Add Subject</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form autocomplete="off" (submit)="addProspectus($event)">
+          <div class="form-group">
+              <label for="name2">Subject Code</label>
+              <input class="form-control" name="name2" type="text" required [(ngModel)]="prospectusInfo.suCode">
+          </div>
+          <div class="form-group">
+              <label for="name3">Subject Description</label>
+              <input class="form-control" name="name3" type="text" required [(ngModel)]="prospectusInfo.suDesc">
+          </div>
+          <div class="form-group">
+              <label for="name4">Lecture Units</label>
+              <input class="form-control" name="name4" type="number" required [(ngModel)]="prospectusInfo.suLecu">
+          </div>
+          <div class="form-group">
+              <label for="name5">Lab Units</label>
+              <input class="form-control" name="name5" type="number" required [(ngModel)]="prospectusInfo.suLabu">
+          </div>
+          <div class="form-group">
+              <label for="name6">RLE Units</label>
+              <input class="form-control" name="name6" type="number" required [(ngModel)]="prospectusInfo.suRleu">
+          </div>
+          <div class="form-group">
+              <label for="name7">Prerequisite</label>
+              <input class="form-control" name="name7" type="text" required [(ngModel)]="prospectusInfo.suPre">
+          </div>
+          <div class="form-group">
+              <label for="name8">Semester</label>
+              <input class="form-control" name="name8" type="text" required [(ngModel)]="prospectusInfo.suSem">
+          </div>
+          <div class="form-group">
+              <label for="name9">Year Level</label>
+              <input class="form-control" name="name9" type="text" required [(ngModel)]="prospectusInfo.suYear">
+          </div>
+          <div class="form-group">
+              <label for="name10">Curriculum Year</label>
+              <input class="form-control" name="name10" type="text" required [(ngModel)]="prospectusInfo.suCy">
+          </div>
+          <div class="form-group">
+              <label for="name11">Course/Program</label>
+              <input class="form-control" name="name11" type="text" required [(ngModel)]="prospectusInfo.suCourse">
+          </div>
+          <button type="submit" class="btn btn-sm btn-success pull-right">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

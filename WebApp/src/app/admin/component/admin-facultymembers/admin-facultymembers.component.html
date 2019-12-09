@@ -113,13 +113,13 @@
                   <input class="form-control" type="text" placeholder="Extension Name">
                 </div>
                 <div class="form-group">
-                  <select class="form-control" required>
+                  <select class="form-control" required name="qwe" [(ngModel)] = "accountType">
                     <option value="0">Faculty</option>
                     <option value="1">Admin</option>
                     <option value="2">Coordinator</option>
                   </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" *ngIf="accountType == 2">
                   <select class="form-control" required>
                     <option *ngFor="let course of courses.data">{{course.co_name}}</option>
                   </select>

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    <ion-title>Prospectus</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <th>Subj Code</th>
+          <th>Subj Desc</th>
+          <th>Lab Units</th>
+          <th>Lec Units</th>
+          <th>Prerequisite</th>
+          <th>Final Grade</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let subject of prospectus.data">
+            <td>{{ subject.su_code }}</td>
+            <td>{{ subject.su_description }}</td>
+            <td>{{ subject.su_labunits }}</td>
+            <td>{{ subject.su_lecunits }}</td>
+            <td>{{ subject.su_prereq }}</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div ></div>
+</ion-content>

@@ -6,7 +6,7 @@ import { AdminFacultymembersComponent } from './component/admin-facultymembers/a
 import { AdminSubjectprospectusComponent } from './component/admin-subjectprospectus/admin-subjectprospectus.component';
 import { DataService } from '../services/data.service';
 import { AdminClassesComponent } from './component/admin-classes/admin-classes.component';
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,8 @@ import { AdminClassesComponent } from './component/admin-classes/admin-classes.c
   ],
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    FormsModule
   ],
   providers: [
     DataService

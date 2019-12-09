@@ -1,2 +1,2 @@
 # gcweb
-4th Year Capstion Project
+4th Year Capstone Project

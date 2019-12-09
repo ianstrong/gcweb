@@ -63,12 +63,25 @@ class Auth{
 						$empMname = $worksheet->getCell('D'.$row)->getValue();
 						$empLname = $worksheet->getCell('E'.$row)->getValue();
 						$empEname = $worksheet->getCell('F'.$row)->getValue();
-						$pass = $this->encryptPassword("Aa1234567");
-						$query = "INSERT INTO tbl_faculty(fa_empnumber,fa_fname,fa_mname,fa_lname,fa_extname,fa_password)
-						 VALUES('$empNo','$empFname','$empMname','$empLname','$empEname','$pass')";
-						
-						$this->conn->query($query);
+						$type = $worksheet->getCell('G'.$row)->getValue();
 
+						if ($type === 'Admin') {
+							$empType = 1;
+						} elseif ($type === 'Faculty') {
+							$empType = 0;
+						} elseif ($type === 'Coordinator') {
+							$empType = 2;
+						}
+						
+						$empProgram = $worksheet->getCell('H'.$row)->getValue();
+						$empDepartment = $_POST['department'];
+
+						$pass = $this->encryptPassword("Aa1234567");
+
+						if($empNo !== '' || $empNo == null ) {
+							$query = "INSERT INTO tbl_faculty(fa_empnumber,fa_fname,fa_mname,fa_lname,fa_extname,fa_password,fa_accounttype,fa_program,fa_department) VALUES('$empNo','$empFname','$empMname','$empLname','$empEname','$pass','$empType','$empProgram','$empDepartment')";
+							$this->conn->query($query);
+						}
 					}
 					
 					return $this->info = array(
@@ -107,25 +120,6 @@ class Auth{
 		}
 
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	function generateToken($empNo) {

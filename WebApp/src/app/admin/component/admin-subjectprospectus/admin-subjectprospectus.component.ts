@@ -14,11 +14,14 @@ export class AdminSubjectprospectusComponent implements OnInit {
   curriculumYear: any = {};
   subjects: any = {};
   credAdmin: any = {};
-
+  show: boolean;
+  selectSubject: string;
+  subjectCY: string;
 
   constructor(private ds: DataService) { }
 
   ngOnInit() {
+    this.show = false;
     this.credAdmin = JSON.parse(localStorage.getItem('gcweb_admin'));
     this.getCourse();
   }
@@ -30,7 +33,6 @@ export class AdminSubjectprospectusComponent implements OnInit {
     });
   }
 
-
   getCourse() {
     this.prospectusInfo.deptName = this.credAdmin.data[0].fa_department;
     this.ds.sendRequest('getProspectusCourse', this.prospectusInfo).subscribe((res) => {
@@ -39,16 +41,18 @@ export class AdminSubjectprospectusComponent implements OnInit {
   }
 
   getCY(e) {
-    this.prospectusInfo.courseName = e.target.value;
+    this.show = false;
+    this.prospectusInfo.courseName = this.selectSubject;
     this.ds.sendRequest('getProspectusCy', this.prospectusInfo).subscribe((res) => {
       this.curriculumYear = res;
     });
   }
 
-  getSubjects(e) {
-    this.prospectusInfo.syCy = e.target.value;
+  getSubjects(e: any) {
+    this.prospectusInfo.syCy = this.subjectCY;
     this.ds.sendRequest('getProspectus', this.prospectusInfo).subscribe((res) => {
       this.subjects = res;
+      this.show = true;
     });
   }
 
@@ -66,6 +70,56 @@ export class AdminSubjectprospectusComponent implements OnInit {
         Swal.fire({ title: 'Failed!' , text: res.status.message , icon: 'error' });
       }
     });
+  }
 
+  editSubject(e) {
+    this.prospectusInfo.recNo = e.su_recno;
+    this.prospectusInfo.suCode = e.su_code;
+    this.prospectusInfo.suDesc = e.su_description;
+    this.prospectusInfo.suLecu = e.su_lecunits;
+    this.prospectusInfo.suLabu = e.su_labunits;
+    this.prospectusInfo.suRleu = e.su_rleunits;
+    this.prospectusInfo.suPre = e.su_prereq;
+    this.prospectusInfo.suSem = e.su_sem;
+    this.prospectusInfo.suYear = e.su_yrlevel;
+    this.prospectusInfo.suCy = e.su_cy;
+    this.prospectusInfo.suCourse = e.su_course;
+
+  }
+
+  addProspectus(e) {
+    e.preventDefault();
+    this.ds.sendRequest('addProspectus', this.prospectusInfo).subscribe((res) => {
+      if (res.status.remarks) {
+        Swal.fire({ title: 'Success!' , text: res.status.message , icon: 'success' });
+        this.getSubjects(null);
+      } else {
+        Swal.fire({ title: 'Failed!' , text: res.status.message , icon: 'error' });
+      }
+    });
+  }
+
+  updateProspectus(e) {
+    e.preventDefault();
+    this.ds.sendRequest('updateProspectus', this.prospectusInfo).subscribe((res) => {
+      if (res.status.remarks) {
+        Swal.fire({ title: 'Success!' , text: res.status.message , icon: 'success' });
+        this.getSubjects(null);
+      } else {
+        Swal.fire({ title: 'Failed!' , text: res.status.message , icon: 'error' });
+      }
+    });
+  }
+
+  delProspectus(e) {
+    console.log(e);
+    this.ds.sendRequest('delProspectus', e).subscribe((res) => {
+      if (res.status.remarks) {
+        Swal.fire({ title: 'Success!' , text: res.status.message , icon: 'success' });
+        this.getSubjects(null);
+      } else {
+        Swal.fire({ title: 'Failed!' , text: res.status.message , icon: 'error' });
+      }
+    });
   }
 }
