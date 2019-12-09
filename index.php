@@ -217,6 +217,10 @@
                     echo json_encode($post->enrollByBlock($d));
                 break;
 
+                case 'insertNewStudent':
+                    $d = json_decode( base64_decode( file_get_contents('php://input')));
+                    echo json_encode($post->insertNewStudent($d));
+                break;
 
 
 

@@ -18,50 +18,46 @@
   }
 
 
+  // $classes = $_GET['classes'];
+
+  // $d = json_decode($classes);
 
 
 
+// $sqlcheckenrolled = "SELECT * FROM tbl_enrolledsubjects where es_idnumber='$id'";
+// $querycheckenrolled = mysqli_query($conn,$sqlcheckenrolled);
+// if(mysqli_num_rows($querycheckenrolled)==0){ 
+//   foreach($d as $key => $class){
 
-  $classes = $_GET['classes'];
+//       $sql_checker = "SELECT * FROM tbl_enrolledsubjects WHERE es_idnumber='$id' and es_clcode='$class->cl_code'";
+//       $query = mysqli_query($conn,$sql_checker);
 
-  $d = json_decode($classes);
+//       if(mysqli_num_rows($query)==0){ 
 
+//           $sql = "INSERT INTO tbl_enrolledsubjects(es_idnumber,es_sucode,es_clcode,es_sem,es_acadyear) values('$id','$class->cl_sucode','$class->cl_code','$es_sem','$es_start[0]-$es_end[0]')";
+//           mysqli_query($conn,$sql);
 
+//       }
+//   }
+// } else  {
+//   $sqldeleteenrolled = "DELETE FROM tbl_enrolledsubjects WHERE es_idnumber='$id'";
+//   if(mysqli_query($conn,$sqldeleteenrolled)){ 
+//       foreach($d as $key => $class){
 
-$sqlcheckenrolled = "SELECT * FROM tbl_enrolledsubjects where es_idnumber='$id'";
-$querycheckenrolled = mysqli_query($conn,$sqlcheckenrolled);
-if(mysqli_num_rows($querycheckenrolled)==0){ 
-  foreach($d as $key => $class){
+//           $sql_checker = "SELECT * FROM tbl_enrolledsubjects WHERE es_idnumber='$id' and es_clcode='$class->cl_code'";
+//           $query = mysqli_query($conn,$sql_checker);
 
-      $sql_checker = "SELECT * FROM tbl_enrolledsubjects WHERE es_idnumber='$id' and es_clcode='$class->cl_code'";
-      $query = mysqli_query($conn,$sql_checker);
+//           if(mysqli_num_rows($query)==0){ 
 
-      if(mysqli_num_rows($query)==0){ 
+//               $sql = "INSERT INTO tbl_enrolledsubjects(es_idnumber,es_sucode,es_clcode,es_sem,es_acadyear) values('$id','$class->cl_sucode','$class->cl_code','$es_sem','$es_start[0]-$es_end[0]')";
+//               mysqli_query($conn,$sql);
 
-          $sql = "INSERT INTO tbl_enrolledsubjects(es_idnumber,es_sucode,es_clcode,es_sem,es_acadyear) values('$id','$class->cl_sucode','$class->cl_code','$es_sem','$es_start[0]-$es_end[0]')";
-          mysqli_query($conn,$sql);
-
-      }
-  }
-} else  {
-  $sqldeleteenrolled = "DELETE FROM tbl_enrolledsubjects WHERE es_idnumber='$id'";
-  if(mysqli_query($conn,$sqldeleteenrolled)){ 
-      foreach($d as $key => $class){
-
-          $sql_checker = "SELECT * FROM tbl_enrolledsubjects WHERE es_idnumber='$id' and es_clcode='$class->cl_code'";
-          $query = mysqli_query($conn,$sql_checker);
-
-          if(mysqli_num_rows($query)==0){ 
-
-              $sql = "INSERT INTO tbl_enrolledsubjects(es_idnumber,es_sucode,es_clcode,es_sem,es_acadyear) values('$id','$class->cl_sucode','$class->cl_code','$es_sem','$es_start[0]-$es_end[0]')";
-              mysqli_query($conn,$sql);
-
-          }
-      }
-  } else {
-    echo $conn->error;
-  }
-}
+//           }
+//       }
+//   } else {
+//     echo $conn->error;
+//   }
+// }
 
 
   $x = 0;
@@ -152,7 +148,7 @@ if(mysqli_num_rows($querycheckenrolled)==0){
 }
     </style>
     
-<script src="../js/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
 
 
@@ -486,7 +482,13 @@ if(mysqli_num_rows($querycheckenrolled)==0){
       $labcount = 0;
       $totalunits = 0;
       $rlecount = 0;
-      $sql = "SELECT * FROM tbl_enrolledsubjects as es JOIN tbl_classes as cl on es.es_clcode = cl.cl_code WHERE es.es_idnumber='$id' and es.es_acadyear='$es_start[0]-$es_end[0]' GROUP BY cl.cl_code";
+      $sql = "SELECT es.es_clcode, es.es_sucode, su.su_lecunits, su.su_labunits, su.su_rleunits, cl.cl_day, cl.cl_stime, cl.cl_etime, cl.cl_room 
+      FROM tbl_enrolledsubjects es 
+      INNER JOIN tbl_classes cl
+      on es.es_clcode = cl.cl_code and es.es_sucode = cl.cl_sucode
+      INNER JOIN tbl_subjects su
+      on es.es_sucode = su.su_code
+      GROUP BY es.es_sucode";
       $query = mysqli_query($conn,$sql);
       if(mysqli_num_rows($query)>0){
         while($res = mysqli_fetch_assoc($query)){
@@ -494,17 +496,17 @@ if(mysqli_num_rows($querycheckenrolled)==0){
           echo "<td class='border-thin' style='text-align: center'>".($i+1)."</td>";
           echo "<td class='border-thin' style='text-align: center'>".$res['es_clcode']."</td>";
           echo "<td class='border-thin' style='text-align: center'>".$res['es_sucode']."</td>"; 
-          echo "<td class='border-thin' style='text-align: center'>".$res['cl_lecunit']."</td>";
-          echo "<td class='border-thin' style='text-align: center'>".$res['cl_labunit']."</td>"; 
-          echo "<td class='border-thin' style='text-align: center'>".$res['cl_rleunit']."</td>";
+          echo "<td class='border-thin' style='text-align: center'>".$res['su_lecunits']."</td>";
+          echo "<td class='border-thin' style='text-align: center'>".$res['su_labunits']."</td>"; 
+          echo "<td class='border-thin' style='text-align: center'>".$res['su_rleunits']."</td>";
           echo "<td class='border-thin' style='text-align: center'>".$res['cl_day']."</td>";
           echo "<td class='border-thin' style='text-align: center'>".$res['cl_stime']."</td>"; 
           echo "<td class='border-thin' style='text-align: center'>".$res['cl_etime']."</td>";
           echo "<td class='border-thin' style='text-align: center'>".$res['cl_room']."</td>";
           echo "</tr>";
-          $leccount = $leccount +(int)$res['cl_lecunit'];
-          $labcount = $labcount +(int)$res['cl_labunit'];
-          $rlecount = $rlecount +(int)$res['cl_rleunit'];
+          $leccount = $leccount +(int)$res['su_lecunits'];
+          $labcount = $labcount +(int)$res['su_labunits'];
+          $rlecount = $rlecount +(int)$res['su_rleunits'];
           $totalunits = $labcount + $leccount + $rlecount;
           $i++;
         }
