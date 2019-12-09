@@ -14,11 +14,12 @@ export class AdminSubjectprospectusComponent implements OnInit {
   curriculumYear: any = {};
   subjects: any = {};
   credAdmin: any = {};
-
+  show: boolean;
 
   constructor(private ds: DataService) { }
 
   ngOnInit() {
+    this.show = false;
     this.credAdmin = JSON.parse(localStorage.getItem('gcweb_admin'));
     this.getCourse();
   }
@@ -39,6 +40,7 @@ export class AdminSubjectprospectusComponent implements OnInit {
   }
 
   getCY(e) {
+    this.show = false;
     this.prospectusInfo.courseName = e.target.value;
     this.ds.sendRequest('getProspectusCy', this.prospectusInfo).subscribe((res) => {
       this.curriculumYear = res;
@@ -49,6 +51,7 @@ export class AdminSubjectprospectusComponent implements OnInit {
     this.prospectusInfo.syCy = e.target.value;
     this.ds.sendRequest('getProspectus', this.prospectusInfo).subscribe((res) => {
       this.subjects = res;
+      this.show = true;
     });
   }
 
@@ -67,5 +70,32 @@ export class AdminSubjectprospectusComponent implements OnInit {
       }
     });
 
+  }
+
+  editSubject(e) {
+    this.prospectusInfo.recNo = e.su_recno;
+    this.prospectusInfo.suCode = e.su_code;
+    this.prospectusInfo.suDesc = e.su_description;
+    this.prospectusInfo.suLecu = e.su_lecunits;
+    this.prospectusInfo.suLabu = e.su_labunits;
+    this.prospectusInfo.suRleu = e.su_rleunits;
+    this.prospectusInfo.suPre = e.su_prereq;
+    this.prospectusInfo.suSem = e.su_sem;
+    this.prospectusInfo.suYear = e.su_yrlevel;
+    this.prospectusInfo.suCy = e.su_cy;
+    this.prospectusInfo.suCourse = e.su_course;
+
+  }
+
+  updateProspectus(e) {
+    e.preventDefault();
+    this.ds.sendRequest('updateProspectus', this.prospectusInfo).subscribe((res) => {
+      if (res.status.remarks) {
+        Swal.fire({ title: 'Success!' , text: res.status.message , icon: 'success' });
+        this.show = false;
+      } else {
+        Swal.fire({ title: 'Failed!' , text: res.status.message , icon: 'error' });
+      }
+    });
   }
 }

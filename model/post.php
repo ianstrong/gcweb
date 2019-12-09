@@ -63,17 +63,17 @@
                         $lastRow = $worksheet->getHighestRow();
     
                         for ($row = 4; $row <= $lastRow; $row++) {
-    
-                            $proTitle = $worksheet->getCell('A'.$row)->getValue();
-                            $proCode = $worksheet->getCell('B'.$row)->getValue();
-                            $proPre = $worksheet->getCell('C'.$row)->getValue();
-                            $proLecu = $worksheet->getCell('D'.$row)->getValue();
-                            $proLabu = $worksheet->getCell('E'.$row)->getValue();
-                            $proRleu = $worksheet->getCell('F'.$row)->getValue();
-                            $proYear = $worksheet->getCell('G'.$row)->getValue();
-                            $proSem = $worksheet->getCell('H'.$row)->getValue();
-                            $proCourse = $worksheet->getCell('C2')->getValue();
-                            $proCy = $worksheet->getCell('E2')->getValue();
+                            
+                            $proCode = $worksheet->getCell('A'.$row)->getValue();
+                            $proTitle = $worksheet->getCell('B'.$row)->getValue();
+                            $proLecu = $worksheet->getCell('C'.$row)->getValue();
+                            $proLabu = $worksheet->getCell('D'.$row)->getValue();
+                            $proRleu = $worksheet->getCell('E'.$row)->getValue();
+                            $proPre = $worksheet->getCell('F'.$row)->getValue();
+                            $proSem = $worksheet->getCell('G'.$row)->getValue();
+                            $proYear = $worksheet->getCell('H'.$row)->getValue();
+                            $proCourse = $worksheet->getCell('B2')->getValue();
+                            $proCy = $worksheet->getCell('H2')->getValue();
                             $query = "INSERT INTO tbl_subjects(su_code,su_description,su_lecunits,su_labunits,su_rleunits,su_prereq,su_sem,su_yrlevel,su_cy,su_course)
                              VALUES('$proCode','$proTitle','$proLecu','$proLabu','$proRleu','$proPre','$proSem','$proYear','$proCy','$proCourse')";
                             
@@ -118,6 +118,10 @@
     
         }
 
+
+
+
+        
         // admin/filters
         function getProspectusCourse($d){
             return $this->executeWithRes("SELECT DISTINCT co_name from tbl_courses WHERE co_dept = '$d->deptName'");

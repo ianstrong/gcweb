@@ -15,6 +15,7 @@ export class AdminFacultymembersComponent implements OnInit {
   credAdmin: any = {};
   prospectusInfo: any = {};
   courses: any = {};
+  accountType: any;
 
   constructor(private ds: DataService) { }
 
@@ -22,12 +23,12 @@ export class AdminFacultymembersComponent implements OnInit {
     this.credAdmin = JSON.parse(localStorage.getItem('gcweb_admin'));
     this.getFac();
     this.getCourse();
+    this.accountType = 0;
   }
 
   viewInfo(i) {
     this.facInfoSingle = this.facMembers.data[i];
   }
-
 
   getFac() {
     this.ds.sendRequest('getFaculty', this.credAdmin).subscribe((res) => {
@@ -80,7 +81,7 @@ export class AdminFacultymembersComponent implements OnInit {
     e.preventDefault();
     const fd = new FormData();
     fd.append('file', e.target[0].files[0], e.target[0].files[0].name);
-
+    fd.append('department', this.credAdmin.data[0].fa_department);
     this.ds.sendRequestWithFile('uploadFaculty', fd).subscribe((res) => {
       if (res.status.remarks) {
         Swal.fire({ title: 'Success!' , text: res.status.message , icon: 'success' }).then(() => {

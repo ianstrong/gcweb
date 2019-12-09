@@ -20,86 +20,114 @@
         case 'POST':
 
             switch ($req[0]) {
+                // authentication related cases
+                    case 'register':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($auth->registeruser($d));
+                    break;
+
+                    case 'loginAdmin':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($auth->loginAdmin($d));
+                    break;
+
+                    case 'checkAdmin':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($auth->checkAdmin($d));
+                    break;
+
+                    case 'loginFaculty':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($auth->loginFaculty($d));
+                    break;
+
+                    case 'checkFaculty':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($auth->checkFaculty($d));
+                    break;
+
+                    case 'loginStudent':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($auth->loginStudent($d));
+                    break;
+
+                    case 'checkStudent':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($auth->checkStudent($d));
+                    break;
+                
 
                 // admin/facultymembers
-                case 'getFaculty':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($post->getFaculty($d)); 
-                break;
+                    case 'getFaculty':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->getFaculty($d)); 
+                    break;
 
-                case 'delFaculty':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($post->delFaculty($d)); 
-                break;
+                    case 'delFaculty':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->delFaculty($d)); 
+                    break;
 
-                case 'addFaculty':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($auth->addFaculty($d)); 
-                break;
+                    case 'addFaculty':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($auth->addFaculty($d)); 
+                    break;
 
-                case 'uploadFaculty':
-                    echo json_encode($auth->uploadFaculty()); 
-                break;
+                    case 'uploadFaculty':
+                        echo json_encode($auth->uploadFaculty()); 
+                    break;
+
+                    
                 
                 // admin/subjectprospectus
-                case 'getProspectus':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($post->getProspectus($d)); 
-                break;
-                case 'uploadProspectus':
-                    echo json_encode($post->uploadProspectus()); 
-                break;
-                
-                //filters
-                case 'getProspectusCourse':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($post->getProspectusCourse($d)); 
-                break;
-                case 'getProspectusCy':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($post->getProspectusCy($d)); 
-                break;
+                    case 'getProspectus':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->getProspectus($d)); 
+                    break;
+                    
+                    case 'uploadProspectus':
+                        echo json_encode($post->uploadProspectus()); 
+                    break;
 
-                // authentication related cases
-                case 'register':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($auth->registeruser($d));
-                break;
+                    case 'updateProspectus':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->updateProspectus($d)); 
+                    break;
+                    
+                    // options in selects in admin/subjectprospectus
+                    case 'getProspectusCourse':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->getProspectusCourse($d)); 
+                    break;
+                    case 'getProspectusCy':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->getProspectusCy($d)); 
+                    break;
 
-                // case 'register':
-                //     $d = json_decode( base64_decode( file_get_contents('php://input')));
-                //     echo json_encode($auth->registeruser($d));
-                // break;
 
-                case 'loginAdmin':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($auth->loginAdmin($d));
-                break;
 
-                case 'checkAdmin':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($auth->checkAdmin($d));
-                break;
 
-                case 'loginFaculty':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($auth->loginFaculty($d));
-                break;
 
-                case 'checkFaculty':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($auth->checkFaculty($d));
-                break;
 
-                case 'loginStudent':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($auth->loginStudent($d));
-                break;
 
-                case 'checkStudent':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($auth->checkStudent($d));
-                break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 
 
