@@ -24,8 +24,8 @@ export class FacultyProfileyComponent implements OnInit {
 
   getSettings() {
     this.ds.sendRequest('getSettings', this.searchInfo).subscribe((res) => {
-      this.searchInfo.actSem = res.data[0].s_actsem;
-      this.searchInfo.actSY = res.data[0].s_actschoolyear;
+      this.searchInfo.actSem = res.data[0].en_sem;
+      this.searchInfo.actSY = res.data[0].en_schoolyear;
       this.getActiveClasses();
 
     });
