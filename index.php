@@ -117,6 +117,31 @@
 
                 // admin/classes
 
+                    case 'getClass':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->getClass($d)); 
+                    break;
+                        
+                    case 'uploadClass':
+                        echo json_encode($post->uploadClass()); 
+                    break;
+
+                    // options in select in admin/classes
+                    case 'getSchoolYear':
+                        echo json_encode($post->getSchoolYear()); 
+                    break;
+
+                    case 'getSem':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->getSem($d)); 
+                    break;
+
+                    case 'getBlocks':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->getBlocks($d)); 
+                    break;
+
+              
 
 
 
@@ -125,10 +150,6 @@
 
 
 
-
-
-
-                
                 case 'getclass':
                     $d = json_decode( base64_decode( file_get_contents('php://input')));
                     echo json_encode($post->myclass($d));

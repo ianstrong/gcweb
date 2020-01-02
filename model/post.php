@@ -118,7 +118,7 @@
             
                 }
 
-                // admin/filters
+                // admin/subjectprospectus (filters)
                 function getProspectusCourse($d){
                     return $this->executeWithRes("SELECT DISTINCT co_name from tbl_courses WHERE co_dept = '$d->deptName'");
                 }
@@ -128,6 +128,112 @@
 
 
 
+        // admin/classes (page)
+
+                
+                function getClass($d) {
+                    return $this->executeWithRes("SELECT * from tbl_classes WHERE (cl_sem = '$d->sem' and cl_schoolyear='$d->SY') and cl_block LIKE '%$d->block%'");                    
+                }
+
+                function uploadClass(){
+                    if(isset($_FILES['file'])){
+            
+                        $file_name = $_FILES['file']['name'];
+                        $target_dir = "../filesFP/".$file_name;
+                        $file_explodedname = explode('.', $file_name);
+                        $file_ext = strtolower(end($file_explodedname) );
+            
+                        $extensions = array("xlsx");
+            
+                        if(in_array($file_ext,$extensions)){ // check if file is excel
+            
+                            if(move_uploaded_file($_FILES['file']['tmp_name'], $target_dir)){
+            
+                                require_once "Classes/PHPExcel.php";
+                                
+                                $excelReader = PHPExcel_IOFactory::createReaderForFile($target_dir);
+                                $excelObj = $excelReader->load($target_dir);
+                                $worksheet = $excelObj->getSheet(0);
+                                $lastRow = $worksheet->getHighestRow();
+            
+                                for ($row = 4; $row <= $lastRow; $row++) {
+                                    
+                                    $a = $worksheet->getCell('A'.$row)->getValue();
+                                    $b = $worksheet->getCell('B'.$row)->getValue();
+                                    $c = $worksheet->getCell('C'.$row)->getValue();
+                                    $d = PHPExcel_Style_NumberFormat::toFormattedString($worksheet->getCell('D'.$row)->getCalculatedValue(), 'hh:mm AM/PM');
+                                    $e = PHPExcel_Style_NumberFormat::toFormattedString($worksheet->getCell('E'.$row)->getCalculatedValue(), 'hh:mm AM/PM');
+                                    $f = $worksheet->getCell('F'.$row)->getValue();
+                                    $g = $worksheet->getCell('G'.$row)->getValue();
+                                    $h = $worksheet->getCell('H'.$row)->getValue();
+                                    $i = $worksheet->getCell('B2')->getValue();
+                                    $j = $worksheet->getCell('G2')->getValue();
+                                    $query = "INSERT INTO tbl_classes(cl_code,
+                                    cl_sucode,
+                                    cl_room,
+                                    cl_stime,
+                                    cl_etime,
+                                    cl_day,
+                                    cl_block,
+                                    cl_facultyid,
+                                    cl_schoolyear,
+                                    cl_sem,
+                                    cl_isnormal)
+                                    VALUES('$a','$b','$c','$d','$e','$f','$g','$h','$i','$j','normal')";
+                                    
+                                    $this->conn->query($query);
+            
+                                }
+                                
+                                return $this->info = array(
+                                    'status'=>array(
+                                        'remarks'=>true,
+                                        'message'=>'Uploading success.'
+                                    ),
+                                    'data' =>$this->data,
+                                    'timestamp'=>date_create(),
+                                    'prepared_by'=>'F-Society'
+                                );
+            
+                            }else{
+                                return $this->info = array('status'=>array(
+                                    'remarks'=>false,
+                                    'message'=>'Uploading failed.'),
+                                'timestamp'=>date_create(),
+                                'prepared_by'=>'F-Society' );
+                            }
+            
+                        }else{
+                            return $this->info = array('status'=>array(
+                                'remarks'=>false,
+                                'message'=>'Invalid file for uploading faculty.'),
+                            'timestamp'=>date_create(),
+                            'prepared_by'=>'F-Society' );
+                        }
+                        
+                        
+                    }else{
+                        return $this->info = array('status'=>array(
+                            'remarks'=>false,
+                            'message'=>'No file uploaded.'),
+                        'timestamp'=>date_create(),
+                        'prepared_by'=>'F-Society' );
+                    }
+            
+                }
+
+                // options in select in admin/classes
+                function getSchoolYear() {
+                    return $this->executeWithRes("SELECT DISTINCT cl_schoolyear from tbl_classes GROUP BY cl_schoolyear");                    
+                }
+
+                function getSem() {
+                    return $this->executeWithRes("SELECT DISTINCT cl_sem from tbl_classes GROUP BY cl_sem");                    
+                }
+
+                function getBlocks($d) {
+                    return $this->executeWithRes("SELECT DISTINCT cl_block from tbl_classes WHERE cl_sem = '$d->sem' and cl_schoolyear='$d->SY' GROUP BY cl_block"); 
+                }
 
 
 

@@ -1,7 +1,7 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-12">
         <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#addModal">
           Add Class
         </button>
@@ -12,13 +12,91 @@
 
 
       <div class="col-md-3">
-        <select class="form-control">
-          <option></option>
-          <option *ngFor=""></option>
+        <select class="form-control" [(ngModel)]="selectSY" (change)="getSem($event)">
+          <option value="">Academic Year</option>
+          <option *ngFor="let sy of schoolYear.data">{{ sy.cl_schoolyear }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <select class="form-control" [(ngModel)]="selectSem" (change)="getBlocks($event)">
+          <option value="">Semester</option>
+          <option *ngFor="let Semester of sem.data">{{ Semester.cl_sem }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <select class="form-control" [(ngModel)]="selectBlock" (change)="getClass($event)">
+          <option value="">Blocks</option>
+          <option *ngFor="let blo of block.data">{{ blo.cl_block }}</option>
         </select>
       </div>
     </div>
 
+
+    <div *ngIf="!show">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title ">Classes</h4>
+            <p class="card-category">Gordon College</p>
+          </div>
+          <div class="card-body text-center text-secondary">
+            <br>
+            <br>
+            <h1><i class="material-icons">data_usage</i></h1>
+            <h1> Please select academic year, semester and block.</h1>
+            <br>
+            <br>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="show">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-success">
+              <h4 class="card-title ">List of Classes for <strong>{{ selectBlock }}</strong></h4>
+              <p class="card-category">Academic Year <strong>{{ selectSY }}</strong></p>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+              <table class="table table-striped">
+                <thead class=" text-primary">
+                  <th>No.</th>
+                  <th>Class Code</th>
+                  <th>Subject Code</th>
+                  <th>Room</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Day</th>
+                  <th>Action</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let class of classes.data; let i = index">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ class.cl_code }}</td>
+                    <td>{{ class.cl_sucode }}</td>
+                    <td>{{ class.cl_room }}</td>
+                    <td>{{ class.cl_stime }}</td>
+                    <td>{{ class.cl_etime }}</td>
+                    <td>{{ class.cl_day }}</td>
+                    <td>
+                      <button class="btn btn-info btn-sm btn-round" data-toggle="modal" data-target="#editModal" (click)=editClass()>Edit</button>
+                      <button class="btn btn-danger btn-sm btn-round" (click)=delClass()>Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
