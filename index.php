@@ -115,18 +115,7 @@
                     break;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+                // admin/classes
 
 
 
@@ -140,9 +129,6 @@
 
 
                 
-
-                // data pulling related cases
-
                 case 'getclass':
                     $d = json_decode( base64_decode( file_get_contents('php://input')));
                     echo json_encode($post->myclass($d));
@@ -151,11 +137,6 @@
                 case 'getclassf':
                     $d = json_decode( base64_decode( file_get_contents('php://input')));
                     echo json_encode($post->myclassf($d));
-                break;
-
-                case 'getfiles':
-                    $d = json_decode( base64_decode( file_get_contents('php://input')));
-                    echo json_encode($post->classFiles($d));
                 break;
 
                 case 'students':

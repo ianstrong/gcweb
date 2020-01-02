@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-admin-classes',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminClassesComponent implements OnInit {
 
-  constructor() { }
+  classInfo: any = {};
+  show = false;
+
+  constructor(private ds: DataService) { }
 
   ngOnInit() {
   }
 
+  addClass(e) {
+
+  }
+
+  uploadClass(e) {
+    this.ds.sendRequestWithFile('uploadClass', this.classInfo).subscribe((res) => {
+
+    });
+  }
 }
