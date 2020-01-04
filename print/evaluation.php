@@ -488,6 +488,7 @@
       on es.es_clcode = cl.cl_code and es.es_sucode = cl.cl_sucode
       INNER JOIN tbl_subjects su
       on es.es_sucode = su.su_code
+      WHERE es.es_idnumber = '$id'
       GROUP BY es.es_sucode";
       $query = mysqli_query($conn,$sql);
       if(mysqli_num_rows($query)>0){

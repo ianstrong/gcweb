@@ -33,6 +33,13 @@ import { FacultyModule } from './faculty/faculty.module';
 import { StudentModule } from './student/student.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { StudentDialogComponent } from './student-dialog/student-dialog.component';
+import { MatDialogModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort'
+import {NgxPaginationModule} from 'ngx-pagination';
+import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 
 
 
@@ -52,6 +59,8 @@ import { HttpClientModule } from '@angular/common/http';
     StudentFooterComponent,
     StudentHeaderComponent,
     LoginComponent,
+    StudentDialogComponent,
+    EditDialogComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -61,9 +70,15 @@ import { HttpClientModule } from '@angular/common/http';
     FacultyModule,
     StudentModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    NgxPaginationModule
   ],
   providers: [],
+  entryComponents: [ StudentDialogComponent, EditDialogComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,7 +9,7 @@
                   </div>
                   <div class="card-body">
                       <div class="row mb-2">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <form class="navbar-form" (submit)="searchStudent($event)">
                                 <div class="input-group no-border">
                                     <input type="number" class="form-control" placeholder="Student Number..." required>
@@ -20,7 +20,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <form class="navbar-form">
                                 <div class="input-group no-border">
                                     <select class="form-control" (change)="enrollByBlock($event)">
@@ -30,6 +30,23 @@
                                 </div>
                             </form>
                         </div>
+                        <div class="col-md-5">
+                            <button mat-raised-button class="btn btn-white btn-round" (click)="studentList()">
+                                <i class="material-icons">people_alt</i>
+                                <div class="ripple-container"></div>
+                                Students
+                            </button>
+                            <button mat-raised-button class="btn btn-white btn-round" (click)="reports()">
+                              <i class="material-icons">assessment</i>
+                              <div class="ripple-container"></div>
+                              Reports
+                          </button>
+                          <!-- <button mat-raised-button class="btn btn-white btn-round" (click)="admin()">
+                            <i class="material-icons">settings_applications</i>
+                            <div class="ripple-container"></div>
+                            Settings
+                        </button> -->
+                      </div>
                       </div>
                       <div class="table-responsive">
                           <table class="table table-striped">
@@ -50,9 +67,9 @@
                                   </td>
                                   <td>{{ studInfo.si_firstname}} {{ studInfo.si_midname}} {{ studInfo.si_lastname}} {{ studInfo.si_extname}}</td>
                                   <td>
-                                    <strong class="text-success">Sex at Birth</strong>
+                                    <strong class="text-success">Year</strong>
                                   </td>
-                                  <td>{{ studInfo.si_gender}}</td>
+                                  <td>{{ studInfo.si_yrlevel}}</td>
                                 </tr>
                                 <tr>
                                   <td>
@@ -60,9 +77,9 @@
                                   </td>
                                   <td>{{ studInfo.si_address }}</td>
                                   <td>
-                                    <strong class="text-success">Zip Code</strong>
+                                    <strong class="text-success">Sem</strong>
                                   </td>
-                                  <td>{{ studInfo.si_zipcode }}</td>
+                                  <td>{{ studInfo.si_sem }}</td>
                                 </tr>
                                 <tr>
                                   <td>

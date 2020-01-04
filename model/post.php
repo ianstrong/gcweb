@@ -118,7 +118,7 @@
             
                 }
 
-                // admin/subjectprospectus (filters)
+                // admin/filters
                 function getProspectusCourse($d){
                     return $this->executeWithRes("SELECT DISTINCT co_name from tbl_courses WHERE co_dept = '$d->deptName'");
                 }
@@ -128,116 +128,6 @@
 
 
 
-        // admin/classes (page)
-
-                
-                function getClass($d) {
-                    return $this->executeWithRes("SELECT * from tbl_classes WHERE (cl_sem = '$d->sem' and cl_schoolyear='$d->SY') and cl_block LIKE '%$d->block%'");                    
-                }
-
-                function uploadClass(){
-                    if(isset($_FILES['file'])){
-            
-                        $file_name = $_FILES['file']['name'];
-                        $target_dir = "../filesFP/".$file_name;
-                        $file_explodedname = explode('.', $file_name);
-                        $file_ext = strtolower(end($file_explodedname) );
-            
-                        $extensions = array("xlsx");
-            
-                        if(in_array($file_ext,$extensions)){ // check if file is excel
-            
-                            if(move_uploaded_file($_FILES['file']['tmp_name'], $target_dir)){
-            
-                                require_once "Classes/PHPExcel.php";
-                                
-                                $excelReader = PHPExcel_IOFactory::createReaderForFile($target_dir);
-                                $excelObj = $excelReader->load($target_dir);
-                                $worksheet = $excelObj->getSheet(0);
-                                $lastRow = $worksheet->getHighestRow();
-            
-                                for ($row = 4; $row <= $lastRow; $row++) {
-                                    
-                                    $a = $worksheet->getCell('A'.$row)->getValue();
-                                    $b = $worksheet->getCell('B'.$row)->getValue();
-                                    $c = $worksheet->getCell('C'.$row)->getValue();
-                                    $d = PHPExcel_Style_NumberFormat::toFormattedString($worksheet->getCell('D'.$row)->getCalculatedValue(), 'hh:mm AM/PM');
-                                    $e = PHPExcel_Style_NumberFormat::toFormattedString($worksheet->getCell('E'.$row)->getCalculatedValue(), 'hh:mm AM/PM');
-                                    $f = $worksheet->getCell('F'.$row)->getValue();
-                                    $g = $worksheet->getCell('G'.$row)->getValue();
-                                    $h = $worksheet->getCell('H'.$row)->getValue();
-                                    $i = $worksheet->getCell('B2')->getValue();
-                                    $j = $worksheet->getCell('G2')->getValue();
-                                    $query = "INSERT INTO tbl_classes(cl_code,
-                                    cl_sucode,
-                                    cl_room,
-                                    cl_stime,
-                                    cl_etime,
-                                    cl_day,
-                                    cl_block,
-                                    cl_facultyid,
-                                    cl_schoolyear,
-                                    cl_sem,
-                                    cl_isnormal)
-                                    VALUES('$a','$b','$c','$d','$e','$f','$g','$h','$i','$j','normal')";
-                                    
-                                    $this->conn->query($query);
-            
-                                }
-                                
-                                return $this->info = array(
-                                    'status'=>array(
-                                        'remarks'=>true,
-                                        'message'=>'Uploading success.'
-                                    ),
-                                    'data' =>$this->data,
-                                    'timestamp'=>date_create(),
-                                    'prepared_by'=>'F-Society'
-                                );
-            
-                            }else{
-                                return $this->info = array('status'=>array(
-                                    'remarks'=>false,
-                                    'message'=>'Uploading failed.'),
-                                'timestamp'=>date_create(),
-                                'prepared_by'=>'F-Society' );
-                            }
-            
-                        }else{
-                            return $this->info = array('status'=>array(
-                                'remarks'=>false,
-                                'message'=>'Invalid file for uploading faculty.'),
-                            'timestamp'=>date_create(),
-                            'prepared_by'=>'F-Society' );
-                        }
-                        
-                        
-                    }else{
-                        return $this->info = array('status'=>array(
-                            'remarks'=>false,
-                            'message'=>'No file uploaded.'),
-                        'timestamp'=>date_create(),
-                        'prepared_by'=>'F-Society' );
-                    }
-            
-                }
-
-                function delClass($d) {
-                    return $this->executeWithoutRes("DELETE from tbl_classes WHERE cl_recno='$d->cl_recno'");
-                }
-
-                // options in select in admin/classes
-                function getSchoolYear() {
-                    return $this->executeWithRes("SELECT DISTINCT cl_schoolyear from tbl_classes GROUP BY cl_schoolyear");                    
-                }
-
-                function getSem() {
-                    return $this->executeWithRes("SELECT DISTINCT cl_sem from tbl_classes GROUP BY cl_sem");                    
-                }
-
-                function getBlocks($d) {
-                    return $this->executeWithRes("SELECT DISTINCT cl_block from tbl_classes WHERE cl_sem = '$d->sem' and cl_schoolyear='$d->SY' GROUP BY cl_block"); 
-                }
 
 
 
@@ -345,7 +235,11 @@
         }
 
         function students($d){
-            return $this->executeWithRes("SELECT si_idnumber,CONCAT(si_lastname,', ',si_firstname,' ',si_midname,' ',si_extname) as si_fullname,si_department,si_course from tbl_studentinfo WHERE si_department='CCS' ORDER BY si_lastname,si_firstname,si_midname,si_extname DESC");
+            return $this->executeWithRes("SELECT si_idnumber,CONCAT(si_lastname,', ',si_firstname,' ',si_extname,', ',si_midname) as si_fullname,si_department,si_course from tbl_studentinfo WHERE si_department='CCS' ORDER BY si_lastname,si_firstname,si_midname,si_extname DESC");
+        }
+
+        function students1($d){
+            return $this->executeWithRes("SELECT si_idnumber,CONCAT(si_lastname,', ',si_firstname,' ',si_extname,', ',si_midname) as si_fullname, si_block, si_course, si_department from tbl_studentinfo WHERE (si_idnumber LIKE '%$d->searchClass%' or si_lastname LIKE '%$d->searchClass%' or si_firstname LIKE '%$d->searchClass%' or si_midname LIKE '%$d->searchClass%' or si_block LIKE '%$d->searchClass%' or si_department LIKE '%$d->searchClass%' or si_course LIKE '%$d->searchClass%') ORDER BY si_idnumber ASC ");
         }
 
         function getClassStudents($d){
@@ -356,6 +250,10 @@
         // faculty/profiley
             function getStudent($d) {
                 return $this->executeWithRes("SELECT * from tbl_studentinfo WHERE si_idnumber = '$d->idNumber'");
+            }
+
+            function getStudents($d) {
+                return $this->executeWithRes("SELECT * from tbl_studentinfo");
             }
 
             function getActiveClasses($d) {
@@ -492,7 +390,8 @@
                 $fatheroccupation = $d->fatheroccupation;
                 $dadcontact = $d->fathercontact;
                 $emergencynumber = $d->emergencynumber;
-                $yearenrolled = '2019-2020';
+                $yearenrolled = $d->schoolyear;
+                $regular = $d->regular;
                 $sem = $d->sem;
                 $sports = '';
                 $sport = '';
@@ -551,7 +450,7 @@
                 }
 
                 $insertNewStudent = "INSERT INTO tbl_studentinfo (si_lastname, si_firstname, si_midname, si_extname, si_address,  si_gender, si_bday, si_email, si_mobile, si_course, si_coursechoice, si_coursechoice2, si_reason, si_siblings, si_momname, si_dadname, si_emergencycontact, si_device, si_entranceexam, si_lastschool, si_average, si_istransferee, si_transfercourselevel, si_reasonstudy, si_scholartype, si_support, si_supportoccupation, si_specialaward, si_organization, si_competition, si_interest, si_talent,si_schoolyear,si_isregular, si_yrlevel, si_sem, si_enrolledyear, si_isenrolled, si_isenlisted, si_sport, si_momoccupation, si_dadoccupation, si_lrn, si_strand, si_guardname, si_guardrel, si_guardadd , si_govproj, si_govprojothers, si_famincome, si_isdisabled, si_disability, si_householdno, si_zipcode, si_momcontact, si_dadcontact, si_spouse, si_spousecontact, si_department) 
-                VALUES ('$lname', '$fname', '$mname', '$extname', '$address',  '$gender', '$bday', '$email', '$contact', '$course', '$course2', '$course3', '$reason', '$siblings', '$mother', '$father', '$emergencynumber', '$devices', '$entrancescore', '$highschool', '$highschoolgpa', '$transferee', '$transferschool', '$reasongc', '$scholartype', '$sponsor', '$sponsoroccupation', '$honors', '$orgs', '$competitions', '$interests', '$talents', '$yearenrolled', 1, 1,'$sem','$yearenrolled',0, 1, '$sport', '$motheroccupation', '$fatheroccupation', '$lrn', '$strand', '$guardname', '$guardrel', '$guardadd', '$govproj','$govprojother','$famincome','$disabled','$disability', '$household', '$zipcode', '$momcontact', '$dadcontact', '$spouse', '$spousecontact', '$department')";
+                VALUES ('$lname', '$fname', '$mname', '$extname', '$address',  '$gender', '$bday', '$email', '$contact', '$course', '$course2', '$course3', '$reason', '$siblings', '$mother', '$father', '$emergencynumber', '$devices', '$entrancescore', '$highschool', '$highschoolgpa', '$transferee', '$transferschool', '$reasongc', '$scholartype', '$sponsor', '$sponsoroccupation', '$honors', '$orgs', '$competitions', '$interests', '$talents', '$yearenrolled', '$regular', 1,'$sem','$yearenrolled',0, 1, '$sport', '$motheroccupation', '$fatheroccupation', '$lrn', '$strand', '$guardname', '$guardrel', '$guardadd', '$govproj','$govprojother','$famincome','$disabled','$disability', '$household', '$zipcode', '$momcontact', '$dadcontact', '$spouse', '$spousecontact', '$department')";
 
                 if($this->conn->query($insertNewStudent)){
                     $insertid = $this->conn->insert_id;
@@ -569,6 +468,24 @@
                 }
                 
 
+            }
+
+            function reenlist($d){
+                $idnumber = $d->idnumber;
+                $year = $d->year;
+                $sem = $d->sem;
+                $regular = $d->regular;
+                $schoolyear = $d->schoolyear;
+                $mobile = $d->mobile;
+                $email = $d->email;
+
+                $reenlistStudent = "UPDATE tbl_studentinfo SET si_yrlevel = '$year', si_sem = '$sem', si_isregular = '$regular', si_schoolyear = '$schoolyear', si_mobile = '$mobile', si_email = '$email', si_isenlisted = 1, si_isenrolled = 0 WHERE si_idnumber = '$idnumber'";
+                if($this->conn->query($reenlistStudent)){
+                    $valid[0]='success';
+                    return $valid;
+                }else{
+                    return $this->conn->error;
+                }
             }
 
 

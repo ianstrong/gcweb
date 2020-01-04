@@ -1,0 +1,41 @@
+<div class="row mb-2">
+    <div class="col-md-4">
+        <div class="navbar-form">
+            <div class="input-group no-border">
+                <input type="text" class="form-control" placeholder="Search..." (keyup)="searchActiveClasses($event)">
+                <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+                    <i class="material-icons">search</i>
+                    <div class="ripple-container"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+  </div>
+  <h4 class="text-primary">Student List: </h4>
+  <div class="table-responsive">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <table class="table table-striped">
+      <thead>
+        <th class="text-success">ID Number</th>
+        <th class="text-success">Full Name</th>
+        <th class="text-success">Course</th>
+        <th class="text-success">Block</th>
+        <th class="text-success">Department</th>
+        <th class="text-success">Action</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students.data  | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+          <td>{{student.si_idnumber}}</td>
+          <td>{{student.si_fullname}}</td>
+          <td>{{student.si_course}}</td>
+          <td>{{student.si_block}}</td>
+          <td>{{student.si_department}}</td>        
+          <td>
+            <button class="btn btn-warning btn-sm" (click)="edit(student.si_idnumber)" style="width: 150px; margin-right: 20px;">Edit Details</button>
+            <button class="btn btn-success btn-sm" (click)="enroll(student.si_idnumber)" style="width: 150px;">Mark Enrolled</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>

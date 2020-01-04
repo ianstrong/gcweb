@@ -115,38 +115,6 @@
                     break;
 
 
-                // admin/classes
-
-                    case 'getClass':
-                        $d = json_decode( base64_decode( file_get_contents('php://input')));
-                        echo json_encode($post->getClass($d)); 
-                    break;
-
-                    case 'delClass':
-                        $d = json_decode( base64_decode( file_get_contents('php://input')));
-                        echo json_encode($post->delClass($d)); 
-                    break;
-                        
-                    case 'uploadClass':
-                        echo json_encode($post->uploadClass()); 
-                    break;
-
-                    // options in select in admin/classes
-                    case 'getSchoolYear':
-                        echo json_encode($post->getSchoolYear()); 
-                    break;
-
-                    case 'getSem':
-                        $d = json_decode( base64_decode( file_get_contents('php://input')));
-                        echo json_encode($post->getSem($d)); 
-                    break;
-
-                    case 'getBlocks':
-                        $d = json_decode( base64_decode( file_get_contents('php://input')));
-                        echo json_encode($post->getBlocks($d)); 
-                    break;
-
-              
 
 
 
@@ -154,6 +122,26 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+                // data pulling related cases
 
                 case 'getclass':
                     $d = json_decode( base64_decode( file_get_contents('php://input')));
@@ -165,9 +153,24 @@
                     echo json_encode($post->myclassf($d));
                 break;
 
+                case 'getfiles':
+                    $d = json_decode( base64_decode( file_get_contents('php://input')));
+                    echo json_encode($post->classFiles($d));
+                break;
+
                 case 'students':
                     $d = json_decode( base64_decode( file_get_contents('php://input')));
                     echo json_encode($post->students($d));
+                break;
+
+                case 'allstudents':
+                    $d = json_decode( base64_decode( file_get_contents('php://input')));
+                    echo json_encode($post->students1($d));
+                break;
+
+                case 'reenlist':
+                    $d = json_decode( base64_decode( file_get_contents('php://input')));
+                    echo json_encode($post->reenlist($d));
                 break;
 
                 case 'getClassStudents':

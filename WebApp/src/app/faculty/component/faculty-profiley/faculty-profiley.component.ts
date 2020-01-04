@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import Swal from 'sweetalert2';
+import { StudentDialogComponent } from '../../../student-dialog/student-dialog.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'app-faculty-profiley',
   templateUrl: './faculty-profiley.component.html',
@@ -15,11 +17,18 @@ export class FacultyProfileyComponent implements OnInit {
   courseBlocks: any = {};
 
 
-  constructor(private ds: DataService) { }
+  constructor(private ds: DataService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.searchInfo.searchClass = '';
     this.getSettings();
+  }
+
+  studentList(){
+    const dialogRef = this.dialog.open(StudentDialogComponent, {
+      width: '80vw',
+      height: '90vh'
+    });
   }
 
   getSettings() {
