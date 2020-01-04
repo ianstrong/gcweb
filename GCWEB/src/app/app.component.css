@@ -1,0 +1,161 @@
+/* -------------------  ELEVATION ---------------------------  */
+
+.mat-elevation-z0 {
+   position: relative;
+   z-index: 2;
+}
+
+.mat-elevation-z8 {
+   position: relative;
+   z-index: 2;
+}
+
+mat-sidenav{
+  left: 0;
+  width: 50%
+}
+
+mat-sidenav mat-nav-list a{
+  color: black;
+}
+
+.heading-button-right:hover{
+  background-color: rgba(0, 128, 0, 0.336);
+  transition: .5s;
+}
+
+
+mat-sidenav-content{
+  width: 100vw;
+}
+mat-sidenav-container{
+  margin-left: 0 !important;
+  padding-left: 0!important;
+}
+/* -------------------  NAVIGATION ---------------------------  */
+
+.navigation-toolbar{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: url(../assets/img/stripes.png);
+}
+
+.navigation-fixed{
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.navigation-is-mobile .navigation-toolbar {
+  position: fixed;
+  z-index: 2;
+}
+
+h1.navigation-company-name {
+  margin-left: 8px;
+}
+
+.navigation-sidenav-container {
+  flex: 1;
+}
+
+.navigation-is-mobile .navigation-sidenav-container {
+  flex: 1 0 auto;
+}
+
+.navigation-list{
+  padding: 0;
+  margin-left: 8px;
+}
+
+.navigation-spacer {
+  flex: 1 1 auto;
+}
+
+.navigation-icon {
+  padding: 0 22px;
+}
+
+.navigation-empty{
+  height: 56px;
+}
+
+mat-nav-list a{
+  color: white;
+}
+
+/* -------------------  LOGO ---------------------------  */
+
+.logo{
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 16px;
+  position: relative;
+  height: inherit;
+
+}
+
+mat-nav-list a:hover{
+  background-color: black;
+  transition: background-color 1s;
+}
+
+.activenav{
+  background-color: black;
+}
+
+.menuhead{
+  padding-bottom: 1rem;
+	margin-bottom: 1rem;
+  border-bottom: 1px solid yellow;
+  color: yellow;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+ul li {
+  position: relative;
+	padding-bottom: 10px;
+}
+
+ul {
+  list-style: none;
+}
+
+ul li:before{
+   content: '';
+   position: absolute;
+   border-right:2px solid yellow;
+   border-bottom:2px solid yellow;
+   width:10px;
+   height:10px;
+   top: calc(50% - 4px);
+   left: -20px;
+   transform: translateY(-50%) rotate(-45deg);
+}
+ul li:hover{
+  background-color: rgba(255, 255, 255, 0.466);
+}
+
+.meganav{
+  position: fixed;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.692);
+}
+
+.meganav a{
+  color: white;
+  text-decoration: none;
+}
+
+/* -------------------  LPCONTENT ---------------------------  */

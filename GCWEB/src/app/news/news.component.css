@@ -1,0 +1,46 @@
+#news{
+    background-color: white;
+}
+
+
+.subsection-header h5 {
+    color: red !important;
+    font-weight: bolder;
+    text-transform: uppercase;
+    /*text-shadow: 1px 1px 3px #000;*/
+  }
+  
+  .subsection-header .title-line{
+    border-color: green;
+  }
+  
+  /*--------------------------------------------------------------
+  # Others
+  --------------------------------------------------------------*/
+  
+  #cultureimg {
+    width: 100%;
+  }
+  
+  .news-title {
+    color: blue !important;
+    font-weight: bolder;
+    font-family: Verdana, Geneva, sans-serif;
+  }
+  
+  .news-readmore a {
+    color: red !important;
+    font-weight: bold;
+  }
+  
+  .news-readmore a:hover {
+    color: blue !important;
+  }
+
+  .post-date {
+    font-size: .9rem;
+    font-style: italic;
+    font-family: 'Times New Roman', Times, serif;
+    color: gray;
+    margin-top: -5%;
+  }

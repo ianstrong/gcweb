@@ -1,0 +1,69 @@
+<section id="about" class="mat-typography" style="margin: 0!important">
+      <div class="container">
+
+		<div id="contentarrow">
+			<a (click)="scrollToElement(target)" id="contentstart"  class="scroll-indicator">ABOUT GORDON COLLEGE</a>
+		</div>
+		<div style="position:absolute;margin-top: 90vh" #target>asdasd</div>
+      	<div class="about-section about-heading section-header" fxLayout="column" fxLayoutAlign="center center" #contentstart1>
+            <div>
+            <h1 [ngStyle.lt-md]="{'margin-bottom': '15px'}" [ngStyle.xs]="{'font-size': '28px'}"><span style="color:#119950">GORDON COLLEGE </span><br *ngIf='break'>OLONGAPO CITY</h1>
+            </div>
+            <div>
+			<p [ngStyle.xs]="{'font-size': '18px'}" [ngStyle.sm]="{'font-size': '22px'}" style="font-family: 'soleil', 'sans-serif';font-size:20px">"Serving the community with a culture of excellence."</p>
+			<h4 class="school-date" style="padding-bottom: 5%">Since 1999</h4>
+	        </div>
+        </div>
+
+        <!-- <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px"> -->
+
+		      <!-- <div fxFlex="50">
+		          <div fxLayout="column" fxLayoutAlign="center center" [ngStyle.lt-md]="{'padding': '0 60px'}">
+		            <div>
+		              <i [ngStyle.lt-md]="{'font-size': '48px'}" class="material-icons">remove_red_eye</i>
+		            </div>
+		            <span fxFlex="30px"></span>
+		            <h2 class="about-text">Vision</h2>
+		            <span fxFlex="10px"></span>
+		            <p class="about-text">By 2025, the College envisions to be a premier local institution of higher learning in Region 3 committed to the holistic development of the human person and society.</p>
+		          </div>
+		      </div>
+
+		      <div fxFlex="50">
+		          <div fxLayout="column" fxLayoutAlign="center center" [ngStyle.xs]="{'padding': '0 60px'}">
+		            <div>
+		              <i [ngStyle.lt-md]="{'font-size': '48px'}" class="material-icons">check_circle_outline</i>
+		            </div>
+		            <span fxFlex="30px"></span>
+		            <h2 class="about-text">Mission</h2>
+		            <span fxFlex="10px"></span>
+
+		            <p class="about-text">To produce well-trained, skilled, dynamic, and competitive individuals imbued with values and attitudes responsive to the changing needs of the local, national and global communities.</p>
+		          </div>
+		      </div> -->
+        <!-- </div> -->
+      </div>
+</section>
+<section id="home-vmg" style="margin: 0!important">
+	<div class="container">
+		<header class="section-header">
+			<h3 style="margin:0 !important">History</h3>
+			<p style="width: 40vw; margin-left: calc(50% - 20vw);">A local government-funded college in Olongapo City, Philippines. It was founded on February 24, 1999 by virtue of City Ordinance No. 9, and is composed of four colleges: College of Computer Studies; College of Business and Accountancy; College of Education Arts and Sciences; College of Allied Health Studies. Other academic units include the Institute of Graduate Studies, Technical-Vocational Unit, and Senior High School</p>
+		</header>
+
+		<div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+			<div fxFlex="50">
+				<header class="section-header">
+					<h3>Vision</h3>
+					<p style="text-align: center;width: 25vw; margin-left: calc(50% - 12.5vw);">By 2025, the College envisions to be a premier local institution of higher learning in Region 3 committed to the holistic development of the human person and society.</p>
+				</header>
+			</div>
+			<div fxFlex="50">
+				<header class="section-header">
+					<h3>Mission</h3>
+					<p style="text-align: center;width: 25vw; margin-left: calc(50% - 12.5vw);">To produce well-trained, skilled, dynamic, and competitive individuals imbued with values and attitudes responsive to the changing needs of the local, national and global communities.</p>
+				</header>
+			</div>
+		</div>
+	</div>
+</section>

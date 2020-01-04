@@ -1,0 +1,59 @@
+<div class="formcontainer">
+	</div>
+<form class="formwidth" (ngSubmit)="onSubmit()">
+				  <div>
+					<div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+						<div fxFlex="100">
+							<h5 class="contact-dialog-title mat-title">Welcome to <span style="color: #18d26e;">GC PORTALS!</span></h5>
+						</div>
+					</div>
+					<div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+						<mat-form-field style="width: 100%;" appearance="outline" color="accent">
+							<mat-label>Username </mat-label>
+							<input matInput placeholder="Student ID Number/Faculty Employee Number" [formControl]="nameFormControl"
+								[errorStateMatcher]="matcher">
+							<mat-error *ngIf="nameFormControl.hasError('required')">
+							Username <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</div>
+					<div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+					  <mat-form-field style="width: 100%;" appearance="outline" color="accent">
+					  	<mat-label>Password </mat-label>
+					    <input type="password" matInput placeholder="Password" [formControl]="phoneFormControl"
+					           [errorStateMatcher]="matcher">
+					    <mat-error *ngIf="phoneFormControl.hasError('required')">
+					      Password <strong>Required</strong>
+					    </mat-error>
+					  </mat-form-field>
+					</div>
+					<div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+							<mat-form-field style="width: 100%;" appearance="outline" color="accent">
+									<mat-select [formControl]="loginSelect" required>
+									  <mat-option value="student" selected>Student Login</mat-option>
+									  <mat-option value="faculty">Faculty Login</mat-option>
+									</mat-select>
+							</mat-form-field>
+					</div>
+					  <!-- <mat-form-field appearance="outline" color="accent">
+					  	<mat-label>Please enter your email </mat-label>
+					    <input matInput placeholder="Email" [formControl]="emailFormControl"
+					           [errorStateMatcher]="matcher">
+					    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+					      Please enter a valid email address
+					    </mat-error>
+					    <mat-error *ngIf="emailFormControl.hasError('required')">
+					      Email is <strong>required</strong>
+					    </mat-error>
+					  </mat-form-field> -->
+
+					  <br>
+
+					  <div class="dialog-action" fxLayout="row" fxLayoutAlign="center center">
+					    <button class="left-button" mat-fab color="primary" type="submit"><mat-icon>done</mat-icon></button>
+					    <button class="right-button" mat-fab color="primary" (click)="dialogOff()"><mat-icon>clear</mat-icon></button>
+					   </div>
+
+				  </div>
+  					
+				</form>

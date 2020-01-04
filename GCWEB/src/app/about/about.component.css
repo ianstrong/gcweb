@@ -1,0 +1,226 @@
+.about-section{
+  text-align: center;
+  margin-top: -55px;
+}
+
+.about-heading h2{
+  font-size: 32px;
+}
+
+.about-heading h3{
+  font-size: 22px;
+}
+
+.about-text{
+  text-align: center;
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 68px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  color: #18d26e;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+#about{
+  background-color: rgba(231, 231, 231, 0.95);
+  
+}
+
+#contentarrow{
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+.scroll-indicator-container {
+  display: none;
+  margin: 0 -1.33333em !important; }
+  @media (min-width: 37.5em) {
+    .scroll-indicator-container {
+      display: block; } }
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  z-index: 100;
+  display: block;
+  width: 100vw;
+  margin: 0;
+  padding: 2.07143em 0 3.57143em;
+  font-size: 0.93333em;
+  text-align: center;
+  text-transform: uppercase;
+  background: url("../../assets/img/stripes-large.png") repeat 0 0;
+  color: #fff; }
+  .scroll-indicator:before, .scroll-indicator:after {
+    position: absolute;
+    bottom: 1.2em;
+    left: 50%;
+    content: '';
+    width: 1px;
+    height: 2em;
+    background: #fff;
+    -webkit-transform-origin: center bottom;
+    -ms-transform-origin: center bottom;
+    transform-origin: center bottom;
+    -webkit-transition: bottom .45s, height .45s, -webkit-transform .45s;
+    transition: bottom .45s, height .45s, transform .45s; }
+  .scroll-indicator:before {
+    -webkit-transform: translate(-50%, 0) rotate(-45deg);
+    -ms-transform: translate(-50%, 0) rotate(-45deg);
+    transform: translate(-50%, 0) rotate(-45deg); }
+  .scroll-indicator:after {
+    -webkit-transform: translate(-50%, 0) rotate(45deg);
+    -ms-transform: translate(-50%, 0) rotate(45deg);
+    transform: translate(-50%, 0) rotate(45deg); }
+  .scroll-indicator:hover {
+    text-decoration: none;
+    color: #fff; }
+    .scroll-indicator:hover:before, .scroll-indicator:hover:after {
+      bottom: 0.66667em;
+      height: 2.33333em; }
+    .scroll-indicator:hover:before {
+      -webkit-transform: translate(-50%, 0) rotate(45deg);
+      -ms-transform: translate(-50%, 0) rotate(45deg);
+      transform: translate(-50%, 0) rotate(45deg); }
+    .scroll-indicator:hover:after {
+      -webkit-transform: translate(-50%, 0) rotate(-45deg);
+      -ms-transform: translate(-50%, 0) rotate(-45deg);
+      transform: translate(-50%, 0) rotate(-45deg); }
+
+
+      
+      .section-header h1 {
+        font-size: 3em;
+        color: #111;
+        text-transform: uppercase;
+        text-align: center;
+        position: relative;
+        padding-bottom: 15px;
+        margin-top: 5%;
+        font-family: "lexia", serif;
+      }
+      
+      .section-header h1::before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 70vw;
+        height: 1px;
+        background: #b5b7b5;
+        bottom: 1px;
+        left: calc(50% - 35vw);
+      }
+      
+      /* .section-header h1::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 80px;
+        height: 3px;
+        background: #18d26e;
+        bottom: 0;
+        left: calc(50% - 40px);
+      } */
+
+      .school-date {
+        display: inline-block;
+        margin-bottom: 1.47619em;
+        font-family: "adobe-garamond-pro", serif;
+        font-size: 1.4em;
+        font-style: italic;
+        color: #b5b7b5; }
+        .school-date:before, .school-date:after {
+          top: -0.09524em;
+          display: inline-block;
+          height: 0.33333em;
+          width: 1.95238em;
+          content: '';
+          background: url("../../assets/img/curly.png") no-repeat 0 0; }
+        .school-date:before {
+          margin-right: 0.47619em; }
+        .school-date:after {
+          margin-left: 0.47619em;
+          -webkit-transform: scaleY(-1) rotate(180deg);
+          -ms-transform: scaleY(-1) rotate(180deg);
+          transform: scaleY(-1) rotate(180deg); }
+        @media (min-width: 37.5em) {
+          .school-date {
+            margin-bottom: 1.33333em; } }
+
+
+
+
+            .section-header h3 {
+              font-size: 32px;
+              color: #111;
+              text-transform: uppercase;
+              text-align: center;
+              font-weight: 700;
+              position: relative;
+              padding-bottom: 15px;
+            }
+            
+            .section-header h3::before {
+              content: '';
+              position: absolute;
+              display: block;
+              width: 120px;
+              height: 1px;
+              background: #ddd;
+              bottom: 1px;
+              left: calc(50% - 60px);
+            }
+            
+            .section-header h3::after {
+              content: '';
+              position: absolute;
+              display: block;
+              width: 40px;
+              height: 3px;
+              background: #18d26e;
+              bottom: 0;
+              left: calc(50% - 20px);
+            }
+            
+            .section-header p {
+              text-align: center;
+              padding-bottom: 15px;
+              color: #333;
+            }
+            
+            /*--------------------------------------------------------------
+            # home-announcements
+            --------------------------------------------------------------*/
+            #home-vmg {
+              background-color: white;
+            }
+          
+           .bannermodtitle {
+              z-index: 100;
+              margin-bottom: 1.85714em;
+              font-family: "lexia", serif;
+              font-size: 2.2em;
+              text-transform: uppercase;
+              color: #969696; 
+            padding-top:1%}

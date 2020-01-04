@@ -1,0 +1,28 @@
+mat-icon{
+	font-weight: bold;
+}
+
+.contact-dialog-title{
+	text-align: center;
+}
+
+.dialog-action{
+	width: 100%;
+	margin-top: 20px;
+}
+
+.right-button{
+	margin-left: 50px;
+}
+
+.formcontainer{
+	background-image: url("../../assets/logo/logo_gc.png");
+	position: fixed;
+  /* Full height */
+  height: 50%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

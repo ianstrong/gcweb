@@ -1,0 +1,33 @@
+<div class="profily">
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+        <h4 fxFlex="100" class="animated fadeInUp">Welcome to <span style="color: #3f51b5 !important;">PROFILY.</span></h4>
+    </div>
+
+        <p class="mt-1 animated fadeInUp" style="margin-top: -2.5%">GC's very own <span style="color: #3f51b5 !important;">profiling</span> and <span style="color: #3f51b5 !important;">enlistment</span> system.</p>
+
+
+        <h1 class="icon-greet mb-1 animated fadeIn"><i style="font-size: 7em; color: #3f51b5" class="material-icons">mood</i></h1>
+
+        <h5 class="mt-1 animated fadeInUp">Hello, Students!</h5>
+
+<p class="mt-1 animated fadeInUp">Please select your department below.</p>
+<mat-form-field  appearance="outline" color="accent" style="width: 20%;min-width: 300px;" class="animated fadeInUp">
+        <mat-select [ngModel]="department" (ngModelChange)="onChange($event)" name="department" required >
+          <mat-option value="gc">-----SELECT DEPARTMENT-----</mat-option>
+          <!-- <mat-option value="igs">Institute of Graduate Studies(IGS)</mat-option> -->
+          <mat-option value="cahs">College of Allied Health Studies(CAHS)</mat-option>
+          <mat-option value="cba">College of Business and Accountancy(CBA)</mat-option>
+          <mat-option value="ccs">College of Computer Studies(CCS)</mat-option>
+          <mat-option value="ceas">College of Education, Arts and Sciences(CEAS)</mat-option>
+          <mat-option value="chtm">College of Hospitality and Tourism Management(CHTM)</mat-option>
+          <!-- <mat-option value="shs">Senior High School(SHS)</mat-option> -->
+        </mat-select>
+</mat-form-field>
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+<a href="" style="text-align: center;" class="animated fadeIn" fxFlex="100"><img [src]="deptlogo" alt="" style="width: 10%;text-align: center;min-width: 100px;"></a>
+</div>
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px" *ngIf="!selectedgc" style="display: flex;justify-content: center;width: 100%;margin-top:1%;padding-bottom: 5%;">
+        <button class="heading-button-right animated fadeInUp" mat-stroked-button [routerLink]="navigateNew">Proceed</button>
+        <!-- <button class="heading-button-right animated fadeInUp" mat-stroked-button style="margin-right: 2%;" [routerLink]="navigateOld">Old Student</button> -->
+</div>
+</div>

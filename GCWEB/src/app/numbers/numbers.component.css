@@ -1,0 +1,46 @@
+.numberscontainer{
+  position: relative;
+  margin: 0!important;
+}
+
+.numbers{
+    height: 100%;
+    background-color: rgba(231, 231, 231, 0.95);
+}
+
+.numbers h1 {
+    font-size: 2em;
+    color: #111;
+    text-transform: uppercase;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+    padding-top: 1%;
+    margin-top: 5%;
+    font-family: "lexia", serif;
+  }
+  
+  .numbers h1::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 70vw;
+    height: 1px;
+    background: #b5b7b5;
+    bottom: 1px;
+    left: calc(50% - 35vw);
+  }
+
+  h1{
+    font: 400 24px/32px Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  h3{
+      text-align: center;
+      font-size: 90px;
+      color:#119950;
+  }
+
+  p{
+      font-size: 40px;
+  }

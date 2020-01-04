@@ -1,0 +1,210 @@
+<mat-toolbar style="position: fixed" class="navigation-toolbar" [class.navigation-is-mobile]="mobileQuery.matches" [class.mat-elevation-z0]="!isActive" [class.mat-elevation-z8]="isActive">
+      <button fxShow="true" fxShow.gt-xs="false" mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+      <a class="logo" fxShow="false" fxShow.gt-xs="true" href="#" routerLink="./"><img src="assets/img/brandlogo.png"></a>
+      <mat-nav-list class="navigation-list" fxLayout="row" fxShow="false" fxShow.gt-xs="true">
+          <a mat-list-item (click)="toggleAboutNav()" id="aboutbtn" [ngStyle]="{ 'background-color': (showAboutNav ? 'rgba(0, 0, 0, 0.692)' : 'transparent') }">About<mat-icon style="color: white">expand_more</mat-icon></a>
+          <a mat-list-item (click)="toggleAcadNav()" id="acadbtn" [ngStyle]="{ 'background-color': (showAcadNav ? 'rgba(0, 0, 0, 0.692)' : 'transparent') }">Academics<mat-icon style="color: white">expand_more</mat-icon></a>
+          <a mat-list-item (click)="toggleStudentNav()" id="studbtn" [ngStyle]="{ 'background-color': (showStudentNav ? 'rgba(0, 0, 0, 0.692)' : 'transparent') }">Students and Alumni<mat-icon style="color: white">expand_more</mat-icon></a>
+          <a mat-list-item id="rndbtn" (click)="closeAll()">Research & Development</a>
+          <a mat-list-item id="combtn" (click)="closeAll()">Community</a>
+      </mat-nav-list>
+      <span class="navigation-spacer"></span>
+      <a routerLink="/enlistment" style="margin-right: 2%;" (click)="closeAll()"><button class="heading-button-right" mat-stroked-button style="margin-right: 2%;color: #18d26e; border-color: #18d26e;">APPLY NOW!</button></a>
+      <a href="../portals"><button id=contact-fab-button mat-mini-fab color="primary" matTooltip="Portals" [matTooltipPosition]="'left'" (click)="closeAll()"><mat-icon style="color: #18d26e;">people_alt</mat-icon></button></a>
+    </mat-toolbar>
+
+    <div class="navigation-empty" fxShow="false" fxShow.gt-xs="true"></div>
+    
+    <mat-sidenav-container class="navigation-sidenav-container"
+                           [style.marginTop.px]="mobileQuery.matches ? 56 : 0" style="width: 100%;">
+      <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                   [fixedInViewport]="mobileQuery.matches" (opened)="setToggleOn()" (closed)="setToggleOff()">
+        <mat-nav-list>
+          <a id="mobilelogo" class="logo" fxShow="true" fxShow.gt-xs="false" href="#" style="margin-bottom:1%; margin-left: -5%;" routerLink="./"><img src="assets/img/brandlogomobile.png"></a>
+          <a mat-list-item>About</a>
+          <a mat-list-item href="#portfolio">Academics</a>
+          <a mat-list-item href="#pricing">Students and Alumni</a>
+          <a mat-list-item href="#blog">Research & Development</a>
+          <a mat-list-item href="#contact">Community Extension</a>
+        </mat-nav-list>
+      </mat-sidenav>
+      <mat-sidenav-content nglp-scroll (onScroll)="detectScroll($event)">
+          <div *ngIf = 'showAboutNav' style="width: 100vw; height: 100vh; background-color: transparent; position: fixed; z-index: 1000;" (click)="closeAboutNav()"></div>
+        <!-- about navigation -->
+          <div class="animated fadeIn meganav" *ngIf = 'showAboutNav' style="z-index: 1001;">
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+                <div fxFlex="25">
+                  <p class="menuhead">GENERAL INFORMATION</p>
+                  <ul>
+                    <li>
+                      <a href="#" routerLink="/profile">College Profile</a>
+                    </li>
+                    <li>
+                        <a href="#" routerLink="/profile">College Seal</a>
+                    </li>
+                    <li>
+                        <a href="#" routerLink="/profile">College Hymn</a>
+                    </li>
+                    <li>
+                        <a href="#" routerLink="/profile">Awards and Recognitions</a>
+                    </li>
+                    <li>
+                        <a href="#" routerLink="/profile">Contact Us</a>
+                    </li>
+                  </ul>
+                </div>
+  
+                <div fxFlex="25">
+                    <p class="menuhead">The College Seal</p>
+                    <a href="#" style="margin-left: 20%;"><img src="assets/logo/logo_gc.png" alt="" style="width: 60%;"></a>
+                </div>
+  
+                <div fxFlex="25">
+                    <p class="menuhead">Administration</p>
+                    <ul>
+                      <li>
+                        <a href="#">Board of Trustees</a>
+                      </li>
+                      <li>
+                        <a href="#">College Administrators</a>
+                      </li>
+                      <li>
+                        <a href="#">Organized Structure</a>
+                      </li>
+                      <li>
+                        <a href="#">Message from the President</a>
+                      </li>
+                    </ul>
+                </div>
+  
+                <div fxFlex="25">
+                    <p class="menuhead" style="margin-right: 10%;">News & Events</p>
+                    <ul>
+                      <li>
+                        <a href="#">Academic Calendar</a>
+                      </li>
+                      <li>
+                        <a href="#">Events</a>
+                      </li>
+                      <li>
+                        <a href="#">News and Articles</a>
+                      </li>
+                      <li>
+                        <a href="#">Announcements</a>
+                      </li>
+                      <li>
+                        <a href="#">The Forefront</a>
+                      </li>
+                    </ul>
+
+                    <p class="menuhead" style="margin-right: 10%;">Other Information</p>
+                    <ul>
+                      <li>
+                        <a href="#">Admission Information</a>
+                      </li>
+                      <li>
+                        <a href="#">Careers and Job Opportunities</a>
+                      </li>
+                    </ul>
+                </div>
+              </div>
+            </div>
+                  <!-- about navigation -->
+                          <!-- Academics Navigation -->
+        <div *ngIf = 'showAcadNav' style="width: 100vw; height: 100vh; background-color: transparent; position: fixed; z-index: 1000;" (click)="closeAcadNav()"></div>
+          <div class="animated fadeIn meganav" *ngIf = 'showAcadNav' style="z-index: 1001;">
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+                  <div fxFlex="100">
+                      <p class="menuhead">Academic Programs</p>
+                  </div>
+              </div>
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+                  <div fxFlex="14">
+                     <a href=""><img src="assets/logo/logo_igs.png" alt="" style="width: 90%;margin-left: 10%;"><p style="text-align: center;margin-left: 10%;">Institute of Graduate Studies</p></a>
+                  </div>
+                  <div fxFlex="14">
+                      <a href=""><img src="assets/logo/logo_cahs.png" alt="" style="width: 90%;margin-left: 8%;"><p style="text-align: center;margin-left: 1%;">College of Allied Health Studies</p></a>
+                  </div>
+                  <div fxFlex="14">
+                      <a href=""><img src="assets/logo/logo_cba.png" alt="" style="width: 90%;margin-left: 8%;"><p style="text-align: center;margin-left: 1%;">College of Business and Accountancy</p></a>
+                  </div>
+                  <div fxFlex="14">
+                      <a href=""><img src="assets/logo/logo_ccs.png" alt="" style="width: 90%;margin-left: 8%;"><p style="text-align: center;margin-left: 1%;">College of Computer Studies</p></a>
+                  </div>
+                  <div fxFlex="14">
+                      <a href=""><img src="assets/logo/logo_ceas.png" alt="" style="width: 90%;margin-left: 8%;"><p style="text-align: center;margin-left: 1%;">College of Education, Arts, and Sciences</p></a>
+                  </div>
+                  <div fxFlex="14">
+                      <a href=""><img src="assets/logo/logo_chtm.png" alt="" style="width: 90%;margin-left: 8%;"><p style="text-align: center;margin-left: 1%;">College of Hospitality and Tourism Management</p></a>
+                  </div>
+                  <div fxFlex="14">
+                      <a href=""><img src="assets/logo/logo_shs.png" alt="" style="width: 90%;margin-left: 0%; margin-right: 40%;"><p style="text-align: center;margin-left: -10%;">Senior High School</p></a>
+                  </div>
+              </div>
+            </div>
+                  <!-- Academic navigation -->
+            <!-- Student Navigation -->
+            <div *ngIf = 'showStudentNav' style="width: 100vw; height: 100vh; background-color: transparent; position: fixed; z-index: 1000;" (click)="closeStudentNav()"></div>
+            <div class="animated fadeIn meganav" *ngIf = 'showStudentNav' style="z-index: 1001;">
+                <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+                    <div fxFlex="33">
+                        <p class="menuhead">College Library</p>
+                        <a href=""><img src="assets/logo/logo_library.png" alt="" style="width: 40%;margin-left: 20%;"></a>
+                    </div>
+                    <div fxFlex="33">
+                        <p class="menuhead">Student Services</p>
+                        <ul>
+                          <li>
+                            <a href="">Culture and Arts</a>
+                          </li>
+                          <li>
+                            <a href="">Discipline</a>
+                          </li>
+                          <li>
+                            <a href="">Guidance and Admission</a>
+                          </li>
+                          <li>
+                            <a href="">Health Services</a>
+                          </li>
+                          <li>
+                            <a href="">Sports Development</a>
+                          </li>
+                          <li>
+                            <a href="">School Organizations</a>
+                          </li>
+                          <li>
+                            <a href="">Student Placement and Linkages</a>
+                          </li>
+                          <li>
+                            <a href="">School Publication</a>
+                          </li>
+                        </ul>
+                    </div>
+                    <div fxFlex="33">
+                        <p class="menuhead">Alumni</p>
+                        <ul>
+                          <li>
+                            <a href="">Tracer Study</a>
+                          </li>
+                          <li>
+                              <a href="">Alumni Relations</a>
+                          </li>
+                        </ul>
+                        <p class="menuhead">Downloads</p>
+                        <ul>
+                          <li>
+                            <a href="">Student Manual</a>
+                          </li>
+                          <li>
+                            <a href="">Forefront News Articles</a>
+                          </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                    <!-- Student navigation -->
+      <router-outlet></router-outlet>
+      <app-footer *ngIf="!mobileQuery.matches"></app-footer>
+
+      </mat-sidenav-content>
+    </mat-sidenav-container>

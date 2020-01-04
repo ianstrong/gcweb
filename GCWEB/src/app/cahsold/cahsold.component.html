@@ -1,0 +1,140 @@
+<div class="cahsnewcontainer animated fadeIn">
+  <mat-card [class.mat-elevation-z24]="!asd" class="card">
+    <h1 style="text-align: center;">Gordon College - College of Allied Health Studies(CAHS)</h1>
+    <h2 style="text-align: center;">Re-Enlistment Form {{sem}}<sup>{{sup}}</sup> Semester A.Y. {{acadyear}} </h2>
+  <mat-vertical-stepper [linear]="isLinear" #stepper>
+    <!-- PERSONAL INFO -->
+          <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup" autocomplete="off">
+              <ng-template matStepLabel>Personal Information</ng-template>
+              <label for="" class="animated fadeInUp">Student ID Number:</label>
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+              <mat-form-field fxFlex="50" class="animated fadeInUp">
+                <input [cleave]="{numericOnly: true,delimiter: '.',blocks:[9]}"  matInput placeholder="Student ID Number" formControlName="idnumber" (keyup.enter)="getInfo()" required  autofocus>
+              </mat-form-field>
+              </div>
+              <label for="" class="animated fadeInUp">Name</label>
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+              <mat-form-field fxFlex="30" class="animated fadeInUp">
+                <input oninput="this.value = this.value.toUpperCase()" matInput placeholder="Last Name" formControlName="lname"   readonly>
+              </mat-form-field>
+              <mat-form-field fxFlex="30" class="animated fadeInUp">
+                      <input oninput="this.value = this.value.toUpperCase()" matInput placeholder="First Name" formControlName="fname" readonly >
+
+              </mat-form-field>
+              <mat-form-field fxFlex="10" class="animated fadeInUp">
+                      <input oninput="this.value = this.value.toUpperCase()" matInput placeholder="Name Ext.(Jr, II, III, etc.)" readonly formControlName="nameext">
+              </mat-form-field>
+              <mat-form-field fxFlex="30" class="animated fadeInUp">
+                      <input oninput="this.value = this.value.toUpperCase()" matInput placeholder="Middle Name" formControlName="mname" readonly >
+              </mat-form-field>
+              </div>
+              <!-- <label for="" class="animated fadeInUp">Provincial Address (Optional)</label>
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+              <mat-form-field fxFlex="10" class="animated fadeInUp">
+                  <input matInput placeholder="House Number" formControlName="houseno1">
+              </mat-form-field>
+              <mat-form-field fxFlex="26" class="animated fadeInUp">
+                <input matInput placeholder="Street/Baranggay" formControlName="street1">
+              </mat-form-field>
+              <mat-form-field fxFlex="26" class="animated fadeInUp">
+                      <input matInput placeholder="Municipality" formControlName="city1">
+              </mat-form-field>
+              <mat-form-field fxFlex="26" class="animated fadeInUp">
+                      <input matInput placeholder="Province" formControlName="province1">
+              </mat-form-field>
+              <mat-form-field fxFlex="10" class="animated fadeInUp">
+                      <input matInput placeholder="Zip Code" formControlName="zipcode1">
+              </mat-form-field>
+              </div> -->
+              <label for="" class="animated fadeInUp">Contact Info</label>
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px" style="margin-bottom: 2%;">
+                  <mat-form-field fxFlex="33" class="animated fadeInUp">
+                      <input matInput placeholder="Email" type="email" formControlName="email" readonly >
+                  </mat-form-field>
+                  <mat-form-field fxFlex="33" class="animated fadeInUp">
+                      <input [cleave]="{numericOnly: true,delimiter: '.',blocks:[11]}" matInput placeholder="Mobile Number" readonly formControlName="mobile" >
+                  </mat-form-field>
+              </div>
+              <label for="" class="animated fadeInUp">Current Year and Sem</label>
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px" style="margin-bottom: 2%;">
+                  <mat-form-field fxFlex="33" class="animated fadeInUp">
+                      <input matInput placeholder="Year" formControlName="currentyear" readonly >
+                  </mat-form-field>
+                  <mat-form-field fxFlex="33" class="animated fadeInUp">
+                      <input [cleave]="{numericOnly: true,delimiter: '.',blocks:[11]}" matInput placeholder="Semester" readonly formControlName="currentsem" >
+                  </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+                <label for="gender" style="color: rgb(0,0,0,0.54);font-size: 15px;position: absolute;">Are you going to enroll this semester?:*</label>
+                <mat-radio-group required formControlName="continue" name="continue" id="continue" fxFlex="33" style="padding-top: 20px;">
+                  <mat-radio-button value="1" style="margin-right: 5%;">Yes</mat-radio-button>
+                  <mat-radio-button value="2" style="margin-right: 5%;">No</mat-radio-button>
+                  <mat-error *ngIf="firstFormGroup.controls.continue.invalid&&showErrors2" style="font-size: 12px;">{{getErrorMessage()}}</mat-error>
+                </mat-radio-group>
+              </div>
+              <div fxLayout="row" fxLayoutWrap="nowrap" fxLayoutGap="30px" style="margin-bottom: 2%;">
+                <mat-form-field fxFlex="50" class="animated fadeInUp" *ngIf="firstFormGroup.controls.continue.value==2">
+                  <input matInput placeholder="Reason for stopping" formControlName="reasonquit" readonly >
+              </mat-form-field>
+              </div>
+              <div>
+                <button *ngIf="firstFormGroup.controls.continue.value==1" mat-raised-button matStepperNext (click)="next()" style="background-color:#2196f3; color: white;">Next</button>
+                <button *ngIf="firstFormGroup.controls.continue.value==2" mat-raised-button (click)="submitDrop()" style="background-color:#2196f3; color: white;">Submit</button>
+              </div>
+            </form>
+          </mat-step>
+  
+  <!-- ENLISTMENT INFO -->
+          <mat-step [stepControl]="secondFormGroup" *ngIf="firstFormGroup.controls.continue.value!=2">
+            <form [formGroup]="secondFormGroup">
+              <ng-template matStepLabel>Enlistment Information</ng-template>
+              <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px" style="margin-bottom: 2%;">
+                <mat-form-field fxFlex="50" class="animated fadeInUp">
+                  <input matInput placeholder="Program" readonly formControlName="course">
+              </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutWrap="nowrap" fxLayoutGap="30px" style="margin-bottom: 2%;">
+                <label for="gender" style="color: rgb(0,0,0,0.54);font-size: 15px;position: absolute;">Year Level:*</label>
+                <mat-radio-group required formControlName="yrlevel" name="yrlevel" id="yrlevel" placeholder="Year Level" fxFlex="33" style="padding-top: 20px;">
+                  <mat-radio-button value="1" style="margin-right: 5%;">1<sup>st</sup></mat-radio-button>
+                  <mat-radio-button value="2" style="margin-right: 5%;">2<sup>nd</sup></mat-radio-button>
+                  <mat-radio-button value="3" style="margin-right: 5%;">3<sup>rd</sup></mat-radio-button>
+                  <mat-radio-button value="4">4<sup>th</sup></mat-radio-button>
+                  <mat-error *ngIf="secondFormGroup.controls.yrlevel.invalid&&showErrors2" style="font-size: 12px;">{{getErrorMessage()}}</mat-error>
+                </mat-radio-group>
+                <label for="gender" style="color: rgb(0,0,0,0.54);font-size: 15px;position: absolute;padding-left: 33%;">Semester:*</label>
+                <mat-radio-group required formControlName="sem" name="sem" id="sem" placeholder="Semester" fxFlex="33" style="padding-top: 20px;">
+                  <mat-radio-button value="1" style="margin-right: 5%;">1<sup>st</sup></mat-radio-button>
+                  <mat-radio-button value="2" style="margin-right: 5%;">2<sup>nd</sup></mat-radio-button>
+                  <mat-radio-button value="Mid Year" style="margin-right: 5%;">Mid Year</mat-radio-button>
+                  <mat-error *ngIf="secondFormGroup.controls.sem.invalid&&showErrors2" style="font-size: 12px;">{{getErrorMessage()}}</mat-error>
+                </mat-radio-group>
+                <label for="gender" style="color: rgb(0,0,0,0.54);font-size: 15px;position: absolute;padding-left: 65.8%;">Regular Student?:*</label>
+                <mat-radio-group required formControlName="regular" name="regular" id="regular" placeholder="Regular Student?" fxFlex="33" style="padding-top: 20px;">
+                  <mat-radio-button value="1" style="margin-right: 5%;">Yes</mat-radio-button>
+                  <mat-radio-button value="0">No</mat-radio-button>
+                  <mat-error *ngIf="secondFormGroup.controls.regular.invalid&&showErrors2" style="font-size: 12px;">{{getErrorMessage()}}</mat-error>
+                </mat-radio-group>
+              </div>
+              <div fxLayout="row" fxLayoutWrap="nowrap" fxLayoutGap="30px" style="margin-bottom: 2%;">
+                <mat-form-field fxFlex="33" class="animated fadeInUp">
+                  <input matInput placeholder="Email" type="email" formControlName="email1" required>
+                  <mat-error *ngIf="secondFormGroup.controls.email1.invalid">{{getErrorEmail()}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutWrap="nowrap" fxLayoutGap="30px" style="margin-bottom: 2%;">
+                <mat-form-field fxFlex="33" class="animated fadeInUp">
+                  <input [cleave]="{numericOnly: true,delimiter: '.',blocks:[11]}" matInput placeholder="Mobile Number" formControlName="mobile1" required>
+                  <mat-error *ngIf="secondFormGroup.controls.mobile1.invalid">{{getErrorMessage()}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div>
+                <button mat-raised-button matStepperPrevious style="margin-right: 1%;">Back</button>
+                <button mat-raised-button matStepperNext style="background-color:#2196f3; color: white;" (click)="submit()">Submit</button>
+              </div>
+            </form>
+          </mat-step>
+        </mat-vertical-stepper>
+      </mat-card>
+      </div>
