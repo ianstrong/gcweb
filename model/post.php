@@ -222,6 +222,10 @@
             
                 }
 
+                function delClass($d) {
+                    return $this->executeWithoutRes("DELETE from tbl_classes WHERE cl_recno='$d->cl_recno'");
+                }
+
                 // options in select in admin/classes
                 function getSchoolYear() {
                     return $this->executeWithRes("SELECT DISTINCT cl_schoolyear from tbl_classes GROUP BY cl_schoolyear");                    

@@ -121,6 +121,11 @@
                         $d = json_decode( base64_decode( file_get_contents('php://input')));
                         echo json_encode($post->getClass($d)); 
                     break;
+
+                    case 'delClass':
+                        $d = json_decode( base64_decode( file_get_contents('php://input')));
+                        echo json_encode($post->delClass($d)); 
+                    break;
                         
                     case 'uploadClass':
                         echo json_encode($post->uploadClass()); 

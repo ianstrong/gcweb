@@ -33,28 +33,28 @@ export class AdminClassesComponent implements OnInit {
 
 
   // step 1
-  getSem(e) {
+  getSem() {
     this.sem.data = [];
     this.show = false;
-    this.classInfo.SY = e.target.value;
+    this.classInfo.SY = this.selectSY;
     this.ds.sendRequest('getSem', this.classInfo).subscribe((res) => {
       this.sem = res;
     });
   }
 
   // step 2
-  getBlocks(e) {
+  getBlocks() {
     this.block.data = [];
     this.show = false;
-    this.classInfo.sem = e.target.value;
+    this.classInfo.sem = this.selectSem;
     this.ds.sendRequest('getBlocks', this.classInfo).subscribe((res) => {
       this.block = res;
     });
   }
 
   // step 3
-  getClass(e) {
-    this.classInfo.block = e.target.value;
+  getClass() {
+    this.classInfo.block = this.selectBlock;
     this.ds.sendRequest('getClass', this.classInfo).subscribe((res) => {
       if (res.status.remarks) {
         this.show = true;
@@ -83,11 +83,23 @@ export class AdminClassesComponent implements OnInit {
 
   }
 
-  delClass() {
-
+  delClass(e) {
+    this.ds.sendRequest('delClass', e).subscribe((res) => {
+      if (res.status.remarks) {
+        Swal.fire({
+          title: 'Success!' , text: 'Record deleted successfully.' , icon: 'success'
+        }).then(() => {
+          this.getClass();
+        });
+      } else {
+        Swal.fire({
+          title: 'Failed!' , text: 'Deleting failed.' , icon: 'error'
+        });
+      }
+    });
   }
 
-  editClass() {
-
+  editClass(e) {
+    console.log(e);
   }
 }
